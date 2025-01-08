@@ -2,6 +2,22 @@
 title: "About me"
 ---
 
-Add some text and a figure describing myself.
+![](images/DSC00674.jpg){fig-align="center" width="573"}
 
-For details, see the exercise instructions. 
+# Who am I?
+
+Hi everyone! Again, my name is Alexis Gonzalez. I am a student a UGA pursuing a masters degree in public health with a concentration in epidemiology. I currently hold a bachelor of science in microbiology, and work in the field of microbiology with an intersection in public health. My programming experience consists of 2 semesters of graduate level biostatistics using R and SAS. Occasionally, I play around with SQL and Tableau. I look forward to expanding my coding knowledge and putting it to use!
+
+I currently work at the United States Department of Agriculture as a Microbiology Intern. That is mostly where I get to utilize SQL and Tableau! We use it to store and visualize outbreak data, antimicrobial resistance data, and other trends we notice. Before that, I did 2 years of undergraduate research on aquatic microorganisms.
+
+## **Interests/hobbies**
+
+In my free time I like to play video games.
+
+Current game is God of War
+
+I'm an avid baker, my home is constantly stocked with some sort of baked good. In contradiction to that, I am really interested in health and wellness and try to spend time in the gym or outdoors. :)
+
+I look forward to learning and adding to my portfolio!
+
+![](images/clipart-yellow-bye-happy-smiley-emoticon-256x256-82d1.png)
