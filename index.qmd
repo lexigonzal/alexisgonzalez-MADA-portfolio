@@ -4,7 +4,7 @@ title: "My website and data analysis portfolio"
 
 # Hello
 
-### Hi
+### Hi my name is Alexis
 
 Welcome to **my website** and *data analysis portfolio.*
 
