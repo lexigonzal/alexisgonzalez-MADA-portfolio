@@ -40,7 +40,7 @@ Load the data.
 
 ```{r}
 #Path to data. Note the use of the here() package and not absolute paths
-data_location <- here::here("starter-analysis-exercise","data","processed-data","processeddata.rds")
+data_location <- here::here("starter-analysis-exercise","data","processed-data","processeddata2.rds")
 #load data
 mydata <- readRDS(data_location)
 ```
@@ -108,8 +108,7 @@ ggsave(filename = figure_file, plot=p4)
 Below is a boxplot of hair color v. height
 
 ```{r}
-p5 <- mydata %>% ggplot(aes(x=`Hair Color`, y=Height)) + 
-  geom_boxplot(color="firebrick3") 
+p5 <- mydata %>% ggplot(aes(x=`Hair Color`, y=Height)) + geom_boxplot(color="firebrick3") 
 plot(p5)
 figure_file=here("starter-analysis-exercise","results","figures","height-hair-boxplot.png")
 ggsave(filename = figure_file, plot=p5) 
@@ -118,7 +117,7 @@ ggsave(filename = figure_file, plot=p5)
 Below is a scatterplot of thumb size v. weight.
 
 ```{r}
-p6 <- mydata %>% ggplot(aes(x=Weight, y=`Thumb Size`)) + 
+p6 <- mydata %>% ggplot(aes(x=Weight, y=`Thumb Length`)) + 
   geom_point(size=2, color="firebrick3")
 plot(p6)
 figure_file=here("starter-analysis-exercise","results","figures","thumbsize-weight-scatterplot.png")
