@@ -3,3 +3,127 @@ title: "R Coding Exercise"
 ---
 
 Placeholder file for the future R coding exercise.
+
+```{r}
+#adding in the dslabs package and other packages
+library(dslabs)
+library(dplyr)
+library(ggplot2)
+library(tidyverse)
+library(here)
+```
+
+#dslabs is now in and datasets are available
+
+```{r}
+#next is to read help file for gapminder
+help(gapminder)
+```
+
+```{r}
+#get an overview of data structure and summary
+str(gapminder)
+summary(gapminder)
+```
+
+```{r}
+#determine the type of object gapminder is
+class(gapminder)
+```
+
+```{r}
+#Assign african countries to new variable africadata
+africadata <- subset(gapminder, continent == "Africa")
+```
+
+```{r}
+#Checking the new variable
+str(africadata)
+summary(africadata)
+```
+
+```{r}
+#taking object africadata and creating mortlife (infant mortality x life expectancy) using the dplyr package
+mortlife <- africadata %>%
+  select(infant_mortality,life_expectancy)
+```
+
+```{r}
+#check the new object
+str(mortlife)
+summary(mortlife)
+```
+
+```{r}
+#repeat the same process but create new object poplife (population x life expectancy) using dplyr
+poplife <- africadata %>%
+  select(population,life_expectancy)
+```
+
+```{r}
+#check new object poplife
+str(poplife)
+summary(poplife)
+```
+
+```{r}
+#plotting life expectancy as a function of infant mortality 
+ggplot(mortlife, aes(x = life_expectancy, y = infant_mortality, color="blue")) + geom_point()
+figure_file=here("coding-exercise","lifeexpectancyxinfantmortality.png")
+ggsave(filename = figure_file)
+```
+
+```{r}
+#plotting population as a function of life expectancy
+# I used chatgpt to get the code for making the x variable on the log scale
+ggplot(poplife, aes(x = population, y = life_expectancy, color="blue")) + geom_point() + scale_x_log10()
+ figure_file=here("coding-exercise","populationxlifeexpectancy.png")
+```
+
+```{r}
+#figuring out what years have missing infant mortality data
+missing_data_years <- africadata %>%
+  filter(is.na(infant_mortality)) %>%
+  select(year) %>%
+  distinct()
+print(missing_data_years)
+```
+
+#### We see that data is missing from 1960-1981 and then again in 2016. Lets avoid those years and focus on 2000.
+```{r}
+#creating a new object for africadata, looking only at data from 2000
+africadata2000 <- africadata %>%
+  filter(year == 2000)
+```
+```{r}
+str(africadata2000)
+summary(africadata2000)
+```
+#### let's try remaking the plots from above using the data from 2000
+
+```{r}
+mortlife2 <- africadata2000 %>%
+  select(infant_mortality,life_expectancy)
+poplife2 <- africadata2000 %>%
+  select(population,life_expectancy)
+ggplot(mortlife2, aes(x = life_expectancy, y = infant_mortality, color="blue")) + geom_point()
+figure_file=here("coding-exercise","lifeexpectancyxinfantmortality2.png")
+ggsave(filename = figure_file)
+ggplot(poplife2, aes(x = population, y = life_expectancy, color="blue")) + geom_point() + scale_x_log10()
+ figure_file=here("coding-exercise","populationxlifeexpectancy2.png")
+
+
+```
+#### Now we will use the lm function to fit the model
+```{r}
+#fit1 is infant mortality as a predictor for life expectancy
+fit1 <- lm(life_expectancy ~ infant_mortality, data=africadata2000)
+summary(fit1)
+```
+```{r}
+#fit2 is population size as a predictor for life expectancy
+fit2 <- lm(life_expectancy ~ population, data=africadata2000)
+summary(fit2)
+```
+#### Based on the p-value infant mortality rate is a better predictor for life expectancy than population size.
+

@@ -2,16 +2,17 @@
 title: "Manuscript/Report Template for a Data Analysis Project"
 subtitle: ""
 author: Alexis Gonzalez
-date: 'today'
+date: today
 format:
   html:
     toc: false
     number-sections: true
     highlight-style: github
-bibliography: '../dataanalysis-template-references.bib'
-csl: '../apa.csl'
+bibliography: ../dataanalysis-template-references.bib
+csl: ../apa.csl
+
 ---
-Hope Grismer contributed to this exercise
+Hope Grismer contributed to this excercise
 
 The structure below is one possible setup for a data analysis project (including the course project). For a manuscript, adjust as needed. You don't need to have exactly these sections, but the content covering those sections should be addressed.
 
@@ -21,12 +22,10 @@ This uses MS Word as output format. [See here](https://quarto.org/docs/output-fo
 # load a few R packages
 library(here)
 library(knitr)
+library(dplyr)
+library(ggplot2)
 data_location <- here::here("starter-analysis-exercise","data","processed-data","processeddata2.rds")
 mydata <- readRDS(data_location)
-library(ggplot2)
-library(dplyr)
-library(here)
-
 ```
 
 # Summary/Abstract
@@ -150,7 +149,7 @@ figure_file=here("starter-analysis-exercise","results","figures","height-hair-bo
 ggsave(filename = figure_file, plot=p5) 
 ```
 
-## 6.2  Scatter plot Weight x Thumb Length 
+## 6.2 Scatter plot Weight x Thumb Length
 
 This scatter plot shows the relationship between weight and thumb length. A slight negative trend can be seen, as weight increases, thumb length decreases.
 
