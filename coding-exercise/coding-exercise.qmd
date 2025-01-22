@@ -90,15 +90,18 @@ print(missing_data_years)
 ```
 
 #### We see that data is missing from 1960-1981 and then again in 2016. Lets avoid those years and focus on 2000.
+
 ```{r}
 #creating a new object for africadata, looking only at data from 2000
 africadata2000 <- africadata %>%
   filter(year == 2000)
 ```
+
 ```{r}
 str(africadata2000)
 summary(africadata2000)
 ```
+
 #### let's try remaking the plots from above using the data from 2000
 
 ```{r}
@@ -114,16 +117,112 @@ ggplot(poplife2, aes(x = population, y = life_expectancy, color="blue")) + geom_
 
 
 ```
+
 #### Now we will use the lm function to fit the model
+
 ```{r}
 #fit1 is infant mortality as a predictor for life expectancy
 fit1 <- lm(life_expectancy ~ infant_mortality, data=africadata2000)
 summary(fit1)
 ```
+
 ```{r}
 #fit2 is population size as a predictor for life expectancy
 fit2 <- lm(life_expectancy ~ population, data=africadata2000)
 summary(fit2)
 ```
+
 #### Based on the p-value infant mortality rate is a better predictor for life expectancy than population size.
 
+## **This following section is contributed by Vincent Nguyen**
+
+This analysis begins with loading and inspecting the data set, us_contagious_diseases
+
+```{r}
+# load in the package dslabs
+library(dslabs)
+
+# load in the dataset, us_contagious_diseases
+data("us_contagious_diseases")
+
+# look at help file for data
+help("us_contagious_diseases")
+
+# get an overview of data structure
+str(us_contagious_diseases)
+
+# get a summary of the data
+summary(us_contagious_diseases)
+
+# determine the type of object data is
+class(us_contagious_diseases)
+```
+
+This section of the analysis focuses on creating objects using the data set. The object, hepadata, is created to narrow the scope of the analysis to just Hepatitis A data. The objects, georgiadata and californiadata, are created to focus on Hepatitis A data in these states. Additionally, a new column is added to calculate incidence rates. Lastly, a dataframe is created, combining the data from both states. This is later used for another part of the analysis.
+
+```{r}
+# load tidyverse package
+library(tidyverse)
+
+# create new object only containing pertussis data
+hepadata <- us_contagious_diseases %>%
+  filter(disease == "Hepatitis A")
+
+# create a new object containing data from only Georgia and create new incidence rate variable
+georgiadata <- hepadata %>%
+  filter(state == "Georgia") %>%
+  mutate(incidence_rate = (count / population) * 100000)
+
+# create a new object containing data from only California and create new incidence rate variable
+californiadata <- hepadata %>%
+  filter(state == "California")%>%
+  mutate(incidence_rate = (count / population) * 100000)
+
+# create a new object containing both for comparisions later
+
+# first need to add new column so that each dataset indicates the state
+georgiadata$state <- "Georgia"
+californiadata$state <- "California"
+
+# combine data sets into one
+combined_data <- rbind(georgiadata, californiadata)
+
+```
+
+This section creates a graph outlining the change in incidence rate over time in the state of GA and CA.
+
+```{r}
+# load package ggplot2
+library(ggplot2)
+
+# create graph plotting year as x and incidence rate as y for Georgia
+georgia_incidence_graph <- ggplot(georgiadata, aes(x = year, y = incidence_rate)) + geom_point(alpha = 0.6, color = "blue") + labs(
+  title = "Incidence rate of Hep. A over time in Georgia",
+  x = "Time",
+  y = "Incidence (per 100,000" )
+
+# display the newly created graph
+print(georgia_incidence_graph)
+
+# create graph plotting year as x and incidence rate as y for California
+california_incidence_graph <- ggplot(californiadata, aes(x = year, y = incidence_rate)) + geom_point(alpha = 0.6, color = "blue") + labs(
+  title = "Incidence rate of Hep. A over time in California",
+  x = "Time",
+  y = "Incidence (per 100,000" )
+
+# display the newly created graph
+print(california_incidence_graph)
+
+
+```
+
+This section creates a simple linear model to analyze the interaction of incidence rate over time across the two states.
+
+```{r}
+# linear model with interaction between year and state
+lm_model <- lm(incidence_rate ~ year * state, data = combined_data)
+summary(lm_model)
+
+```
+
+From these results, it can be concluded that Georgia has a significantly lower baseline incidence rate of Hepatitis A compared to California, and additionally, the change in incidence over time differs between the two states. The interaction term between year and state indicates that the change in incidence over time is significantly different between the two states. The incidence rate in California significantly decreases at a greater rate than Georgia indicating a possibly more effective response to Hepatitis A.
