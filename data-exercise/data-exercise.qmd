@@ -1,0 +1,122 @@
+---
+title: "Moduel 4 Exercise"
+---
+
+### For this exercise I will be analyzing an Image. #The first step is to load in the necessary packages for exploring images. This will be magick and imager. Both packages can be used to manipulate the images properties such as its size, colors, effects, and even animating. Imager won't run on MacOS unless you install XQuartz first [here](https://www.xquartz.org/)
+
+```{r}
+library(tidyverse)
+library(magick)
+library(imager)
+```
+
+#### Now I will load in my images, my images are characters from a show so I will use their names
+
+```{r}
+jjk <- list(
+  itadori = image_read("/Users/alexisgonzalez/Downloads/itadori.jpg"),
+  nobara = image_read("/Users/alexisgonzalez/Downloads/nobara.jpg"),
+  megumi = image_read("/Users/alexisgonzalez/Downloads/megumi.jpg"),
+  nanami = image_read("/Users/alexisgonzalez/Downloads/nanami.jpg"),
+  gojo = image_read("/Users/alexisgonzalez/Downloads/gojo.jpg"),
+  sukuna = image_read("/Users/alexisgonzalez/Downloads/sukuna.jpg")
+  )
+
+```
+
+#### The sizes of the images are different so I'm going to make them all the same 640x640
+
+```{r}
+resized_images <- lapply(jjk, function(img) {image_resize(img, "640x640" )})
+```
+
+#### Now I can combine all of these images and turn them into a gif
+
+```{r}
+gif <- image_animate(image_join(resized_images), fps = 5)
+```
+
+#### Now I view my gif, it should play in the window on the bottom left
+
+```{r}
+print(gif)
+```
+
+# So, this is really cool but, I want this to have sound so I need to convert this into a video
+
+```{r}
+#To do this I will use the magick package and the av package
+library(av)
+```
+
+##I want this video to be 30sec long so I have to duplicate the frames/images
+
+```{r}
+fps <- 5
+duration <- 10
+total_frames <- 50
+```
+
+```{r}
+repeated_images <- rep(jjk, length.out = total_frames)
+```
+
+#now I need to save my jpgs as pngs
+
+```{r}
+frame_files <- sprintf("frame%d.png", seq_along(repeated_images))
+for (i in seq_along(repeated_images)) {
+  image_write(repeated_images[[i]], path = frame_files[i])
+}
+```
+
+#I will now combine all of the frames (pngs) into a video and add an mp3 file I downloaded from the internet
+
+```{r}
+Sys.setenv(PATH = paste(Sys.getenv("PATH"), "/opt/homebrew/bin", sep = ":"))
+```
+
+```{r}
+system('ffmpeg -framerate 30 -i frame_files/frame%d.png -pix_fmt yuv420p -r 30 -vf scale=640:640 -i "/Users/alexisgonzalez/Downloads/JUJUTSU KAISEN - Opening  Kaikai Kitan.mp3" -c:v libx264 -c:a aac -strict experimental animation_w_sound.mp4')
+```
+
+```{r}
+# Define the directory where your frames are stored
+frame_dir <- "frame_files/"  # Change to the correct directory if needed
+
+# Create the filenames for each frame
+frame_files <- sprintf("%sframe%d.png", frame_dir, seq_along(repeated_images))
+
+# Write the images to the frame files
+for (i in seq_along(repeated_images)) {
+  image_write(repeated_images[[i]], path = frame_files[i])
+}
+
+# Set the environment to include ffmpeg if not already done
+Sys.setenv(PATH = paste(Sys.getenv("PATH"), "/opt/homebrew/bin", sep = ":"))
+
+# Run the ffmpeg command to create the video with audio
+system(paste('ffmpeg -framerate 30 -i', frame_files[1], '-pix_fmt yuv420p -r 30 -vf scale=640:640 -i "/Users/alexisgonzalez/Downloads/JUJUTSU KAISEN - Opening  Kaikai Kitan.mp3" -c:v libx264 -c:a aac -strict experimental animation_w_sound.mp4'))
+
+```
+
+```{r}
+# List all files in the directory
+frame_files <- list.files("frame_files", full.names = TRUE)
+
+# Delete all files in that directory
+file.remove(frame_files)
+
+```
+
+```{r}
+av::av_encode_video(
+  input = frame_files,
+  output = "animation_w_sound.mp4",
+  framerate = fps,
+  audio = "/Users/alexisgonzalez/Downloads/JUJUTSU KAISEN - Opening  Kaikai Kitan.mp3"
+)
+
+```
+
+## Converting to an mp4 with sound proved to be very difficult to disregard this section for now and enjoy the gif! I really enjoyed manipulating images in R , it was a nice break from data analysis and maybe one of the few times I have stayed up late playing with R for fun.
