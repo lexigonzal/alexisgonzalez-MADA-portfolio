@@ -15,7 +15,7 @@ website:
           - text: "R Coding Exercise"
             file: coding-exercise/coding-exercise.qmd
           - text: "CDC Data Exercise"
-            file: cdcdata-excercise/cdcdata-exercise.qmd
+            file: cdcdata-exercise/cdcdata-excercise.qmd
     right:
       - icon: github 
         href: https://github.com/lexigonzal/alexisgonzalez-MADA-portfolio.git        
