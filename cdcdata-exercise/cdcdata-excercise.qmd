@@ -1,0 +1,331 @@
+---
+title: "Moduel 5 Exercise"
+---
+
+# CDC Data exploration
+
+#### The data set being used for this exercise is the Prevalence of Disability Statues and Types by Demographic Groups (2021) from the Disability and Health Data System (DHDS). DHDS collects state-level data on adults with disabilities. Disabilities are categorized by 6 disability types: cognitive, hearing, mobility, vision, self care (difficulty dressing or bathing), and independent living. This data is collected through the Behavioral Risk Factor Surveillance System using telephone interviews. Participants must be non-institutionalized and 18 years or older. The data can be found here <https://data.cdc.gov/Disability-Health/DHDS-Prevalence-of-Disability-Status-and-Types-by-/qjg3-6acf/about_data> .
+
+::: {pagebreak}
+:::
+
+```{r,include=FALSE}
+#Load packages
+library(tidyverse)
+```
+
+##### Now I will load in the dataset
+
+```{r}
+cdcdata <- read_csv("/Users/alexisgonzalez/Desktop/MADA/alexisgonzalez-MADA-portfolio/cdcdata-exercise/DHDS_-_Prevalence_of_Disability_Status_and_Types_by_Demographic_Groups__2021_20250204.csv")
+```
+
+```{r}
+str(cdcdata)
+summary(cdcdata)
+```
+
+###### We can use this command to see how the data is groups
+```{r}
+unique(cdcdata$Response)
+```
+We see here that response contains the answers to the demographic questions. When we do exploratory analysis we have to be sure to specify what response we want.
+
+```{r}
+unique(cdcdata$Indicator)
+```
+
+```{r}
+unique(cdcdata$LocationDesc)
+```
+
+##### Some variables have no data for any entry so I will remove those variable and keep the ones I want
+```{r}
+cdcdata2 <- cdcdata %>%
+  select(LocationDesc, Category,Indicator,Response,StratificationCategory1,Stratification1, Data_Value)
+```
+##### I also want to keep the data to the 50 states so I will remove territiories (except for DC) and HHS Regions.
+```{r}
+cdcdata_final <- cdcdata2 %>%
+  filter(!(LocationDesc %in% c("Guam", "U.S. Virgin Islands","HHS Region 1","HHS Region 2","HHS Region 3","HHS Region 4","HHS Region 5","HHS Region 6","HHS Region 7","HHS Region 8", "HHS Region 9","HHS Region 10","Puerto Rico", "United States, DC & Territories")))
+```
+##### Checking to make sure it worked
+```{r}
+unique(cdcdata_final$LocationDesc)
+```
+
+##### Now that the data is cleaned and condensed we can do some data exploration
+##### There are lots of variables to look at so lets start with just looking at a histogram of disability by age group.Starting with those that are 18-44
+```{r}
+eighteento44 <- cdcdata_final %>%
+  filter(Response == "18-44", Indicator == "Disability status and types among adults 18 years of age or older by age group")
+```
+
+
+```{r}
+ggplot(eighteento44, aes(x = Stratification1 , y= Data_Value, color = Stratification1)) +
+  geom_boxplot() +
+  labs(title = "Disabilities in ages 18-44 in 2021",
+       x = "Disability Type",
+       y = "Prevelance"
+       ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+##### Now we will repeat this for the other age groups
+```{r}
+agegroup2 <- cdcdata_final %>%
+  filter(Response == "45-64", Indicator == "Disability status and types among adults 18 years of age or older by age group")
+```
+
+
+```{r}
+ggplot(agegroup2, aes(x = Stratification1 , y= Data_Value, color = Stratification1)) +
+  geom_boxplot() +
+  labs(title = "Disabilities in ages 45-64 in 2021",
+       x = "Disability Type",
+       y = "Prevelance"
+       ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+```{r}
+agegroup2 <- cdcdata_final %>%
+  filter(Response == "65+", Indicator == "Disability status and types among adults 18 years of age or older by age group")
+```
+
+
+```{r}
+ggplot(agegroup2, aes(x = Stratification1 , y= Data_Value, color = Stratification1)) +
+  geom_boxplot() +
+  labs(title = "Disabilities in age 65+ in 2021",
+       x = "Disability Type",
+       y = "Prevelance"
+       ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+##### These 3 boxplots tell us how prevalence of disabilities changes as age increases. If we look at just the "Any Disability" category we see the prevalence noticably increase as age increases. We also see that a majority of those sampled have no disability.
+#####Now we will see if there is any correlation to age and disability, for this we will make a variable that combines all the disability entries minus those that selected no disability. and a new variable for age
+```{r}
+cdcdata_final <- cdcdata_final %>%
+  mutate(disability_yes = case_when(
+    Stratification1 %in% c("Any Disability", "Cognitive Disability", "Hearing Disability", "Independent Living Disability", "Mobility Disability", "Self-care Disability", "Vision Disability") ~ "Yes",
+    Stratification1 == "No Disability" ~ "No",  
+    TRUE ~ NA_character_  
+  ))
+```
+
+```{r}
+cdcdata_final <- cdcdata_final %>%
+  mutate(Ages = case_when(
+    Response == "18-44" ~ "18-44",
+    Response == "45-65" ~ "45-65",
+    Response == "65+" ~ "65+",
+    TRUE ~ NA_character_  
+  ))
+
+```
+
+
+```{r}
+# Assuming `prevalence` is the outcome variable, and `ages` and `disability_yes` are predictors
+lm_model <- lm(Data_Value ~ Ages + disability_yes, data = cdcdata_final)
+
+# View the summary of the model
+summary(lm_model)
+
+```
+##### Now lets look at age and disability
+###### I am going to approach this a little differently than before, I will first filter my Stratification 1 data to only contain "any disability" This will cut my entries down but it should give a good representation of disability prevelance in each race.
+
+```{r}
+# Filter data for 'any disability' (assuming 'disability' is the variable containing disability types)
+cdcdata_disability <- cdcdata_final %>%
+  filter(Stratification1 == "any disability")
+
+```
+```{r}
+#filter data for races
+cdcdata_race <- cdcdata_final %>%
+  filter(Response %in% c("American Indian or Alaska Native, non-Hispanic
+","Asian, non-Hispanic","Black, non-Hispanic","Hispanic", "Native Hawaiian or Other Pacific Islander, non-Hispanic","Other / Multirace, non-Hispanic","White, non-Hispanic")) %>%
+  filter(Stratification1== "Any Disability")
+```
+
+```{r}
+# Create a bar plot for disability prevalence by race
+ggplot(cdcdata_race, aes(x = Response, y = Data_Value, fill = Stratification1)) +
+  geom_bar(stat = "identity", position = "dodge") +  # Position bars side by side
+  labs(title = "Prevalence of 'Any Disability' Across Racial Groups", 
+       x = "Race", 
+       y = "Disability Prevalence") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels
+
+  
+
+```
+##### From this we gather that multiracial/other individuals had a higher prevalence of disability, lets see what disabilities.
+```{r}
+#filtering again to only include response = multirace
+multirace <- cdcdata_final %>%
+  filter(Response == "Other / Multirace, non-Hispanic")
+```
+
+```{r}
+ggplot(multirace, aes(x = Stratification1 , y= Data_Value, color = Stratification1)) +
+  geom_boxplot() +
+  labs(title = "Disabilities in those that are other/multirace in 2021",
+       x = "Disability Type",
+       y = "Prevelance"
+       ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+##### From these we see a higher prevalence of cognitive disability in those that are multirace/other
+##### Next I will do the same for each race
+```{r}
+black <- cdcdata_final %>%
+  filter(Response == "Black, non-Hispanic")
+ggplot(black, aes(x = Stratification1 , y= Data_Value, color = Stratification1)) +
+  geom_boxplot() +
+  labs(title = "Disabilities in those that are other/multirace in 2021",
+       x = "Disability Type",
+       y = "Prevelance"
+       ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+```{r}
+asian <- cdcdata_final %>%
+  filter(Response == "Asian, non-Hispanic")
+ggplot(asian, aes(x = Stratification1 , y= Data_Value, color = Stratification1)) +
+  geom_boxplot() +
+  labs(title = "Disabilities in those that are other/multirace in 2021",
+       x = "Disability Type",
+       y = "Prevelance"
+       ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+```{r}
+native <- cdcdata_final %>%
+  filter(Response == "American Indian or Alaska Native, non-Hispanic")
+ggplot(native, aes(x = Stratification1 , y= Data_Value, color = Stratification1)) +
+  geom_boxplot() +
+  labs(title = "Disabilities in those that are other/multirace in 2021",
+       x = "Disability Type",
+       y = "Prevelance"
+       ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+```{r}
+islander <- cdcdata_final %>%
+  filter(Response == "Native Hawaiian or Other Pacific Islander, non-Hispanic")
+ggplot(islander, aes(x = Stratification1 , y= Data_Value, color = Stratification1)) +
+  geom_boxplot() +
+  labs(title = "Disabilities in those that are other/multirace in 2021",
+       x = "Disability Type",
+       y = "Prevelance"
+       ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+```{r}
+white <- cdcdata_final %>%
+  filter(Response == "White, non-Hispanic")
+ggplot(white, aes(x = Stratification1 , y= Data_Value, color = Stratification1)) +
+  geom_boxplot() +
+  labs(title = "Disabilities in those that are other/multirace in 2021",
+       x = "Disability Type",
+       y = "Prevelance"
+       ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+##### The last two demographics to see are sex and veteran status, I will be doing alot of what has previously been done for this section.
+```{r}
+# Filter data for 'any disability' (assuming 'disability' is the variable containing disability types)
+cdcdata_disability <- cdcdata_final %>%
+  filter(Stratification1 == "any disability")
+
+```
+```{r}
+#filter data for genders
+cdcdata_sex <- cdcdata_final %>%
+  filter(Response %in% c("Female", "Male" )) %>%
+  filter(Stratification1== "Any Disability")
+
+```
+```{r}
+# Create a bar plot for disability prevalence by gender
+ggplot(cdcdata_sex, aes(x = Response, y = Data_Value, fill = Stratification1)) +
+  geom_bar(stat = "identity", position = "dodge") +  # Position bars side by side
+  labs(title = "Prevalence of 'Any Disability' by sex", 
+       x = "Sex", 
+       y = "Disability Prevalence") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels
+```
+```{r}
+
+#Disabilities in females
+female <- cdcdata_final %>%
+  filter(Response == "Female")
+ggplot(female, aes(x = Stratification1 , y= Data_Value, color = Stratification1)) +
+  geom_boxplot() +
+  labs(title = "Disabilities in those that are female",
+       x = "Disability Type",
+       y = "Prevelance"
+       ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+```{r}
+#Disabilities in males
+male <- cdcdata_final %>%
+  filter(Response == "Male")
+ggplot(male, aes(x = Stratification1 , y= Data_Value, color = Stratification1)) +
+  geom_boxplot() +
+  labs(title = "Disabilities in those that are Male",
+       x = "Disability Type",
+       y = "Prevelance"
+       ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+```{r}
+# Filter data for 'any disability' (assuming 'disability' is the variable containing disability types)
+cdcdata_disability <- cdcdata_final %>%
+  filter(Stratification1 == "any disability")
+
+```
+```{r}
+#filter data for vet status
+cdcdata_vet <- cdcdata_final %>%
+  filter(Response %in% c("Veteran", "Non-Veteran" )) %>%
+  filter(Stratification1== "Any Disability")
+
+```
+```{r}
+# Create a bar plot for disability prevalence by gender
+ggplot(cdcdata_vet, aes(x = Response, y = Data_Value, fill = Stratification1)) +
+  geom_bar(stat = "identity", position = "dodge") +  # Position bars side by side
+  labs(title = "Prevalence of 'Any Disability' by Veteran Status", 
+       x = "Status", 
+       y = "Disability Prevalence") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels
+```
+```{r}
+#Disabilities in veterans
+vet <- cdcdata_final %>%
+  filter(Response == "Veteran")
+ggplot(vet, aes(x = Stratification1 , y= Data_Value, color = Stratification1)) +
+  geom_boxplot() +
+  labs(title = "Disabilities in those that are Veterans",
+       x = "Disability Type",
+       y = "Prevelance"
+       ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+```{r}
+vet_no <- cdcdata_final %>%
+  filter(Response == "Non-Veteran")
+ggplot(vet_no, aes(x = Stratification1 , y= Data_Value, color = Stratification1)) +
+  geom_boxplot() +
+  labs(title = "Disabilities in those that are Not Veterans",
+       x = "Disability Type",
+       y = "Prevelance"
+       ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
