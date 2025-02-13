@@ -16,6 +16,8 @@ website:
             file: coding-exercise/coding-exercise.qmd
           - text: "CDC Data Exercise"
             file: cdcdata-exercise/cdcdata-excercise.qmd
+          - text: "Presentation Exercise"
+            file: presentation-exercise/presenation-exercise.qmd
     right:
       - icon: github 
         href: https://github.com/lexigonzal/alexisgonzalez-MADA-portfolio.git        
