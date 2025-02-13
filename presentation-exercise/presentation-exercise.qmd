@@ -4,7 +4,7 @@ title: "R Coding Exercise"
 
 ### I found this really cool analysis from fivethirtyeight of past [bachelor and bachelorette seasons.](https://fivethirtyeight.com/features/rachels-season-is-fitting-neatly-into-bachelorette-history/) This analysis consists of a few graphics that show patterns in the bachelor franchise seasons. I'm going to recreate the second graph in this article that shows where the first impression post has led in past seasons. Here is the original graph:
 
-![](images/Screenshot 2025-02-12 at 7.02.55 PM-01.png){fig-align="center"}
+![](images/Screenshot%202025-02-12%20at%207.02.55%20PM-01.png){fig-align="center"}
 
 #### first I will load the necessary packages
 

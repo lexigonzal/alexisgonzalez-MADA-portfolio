@@ -23,7 +23,7 @@ website:
         href: https://github.com/lexigonzal/alexisgonzalez-MADA-portfolio.git        
 format:
   html:
-    theme: quartz
+    theme: pulse
     highlight: zenburn
     css: styles.css
     toc: FALSE
