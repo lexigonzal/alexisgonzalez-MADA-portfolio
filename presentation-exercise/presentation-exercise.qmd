@@ -4,7 +4,7 @@ title: "R Coding Exercise"
 
 ### I found this really cool analysis from fivethirtyeight of past [bachelor and bachelorette seasons.](https://fivethirtyeight.com/features/rachels-season-is-fitting-neatly-into-bachelorette-history/) This analysis consists of a few graphics that show patterns in the bachelor franchise seasons. I'm going to recreate the second graph in this article that shows where the first impression post has led in past seasons. Here is the original graph:
 
-![](images/Screenshot%202025-02-12%20at%207.02.55%20PM.png){width="1216"}
+![](images/Screenshot 2025-02-12 at 7.02.55 PM-01.png)
 
 #### first I will load the necessary packages
 
@@ -60,7 +60,7 @@ ggplot() +
 
   # Text labels for category names
   geom_text(data = data, aes(x = x_end + 1, y = y_end, label = paste0(category, "\n", percentage, "%")), 
-            hjust = 0, size = 5, fontface = "bold") +
+            hjust = 0, size = 3, fontface = "bold") +
 
   # Theme adjustments
   theme_void() +
@@ -169,6 +169,7 @@ first_imp2 <- first_impression_contestants[-c(5, 6, 7, 9, 10, 23, 24, 25, 27, 28
 ```{r}
 first_imp2
 ```
+
 ```{r}
 length(first_imp2$CONTESTANT)
 length(first_imp2$SEASON)
@@ -176,6 +177,7 @@ length(first_imp2$SHOW)
 ```
 
 ####Now I will create the table, inserting a photo on the contestant
+
 
 ```{r}
 # Create the data frame with contestant details
@@ -186,36 +188,36 @@ contestants_data <- data.frame(
   category = c("Fifth place and Below","Winners","Fifth place and Below","Fifth place and Below","Winners", "Winners", "Runners-up", "Fifth place and Below","Fourth place","Fourth place","Winners","Fifth place and Below","Winners","Fifth place and Below","Winners","Fifth place and Below","Fourth place","Fourth place","Fourth place","Runners-up","Third Place","Fourth place","Third Place","Fifth place and Below","Fifth place and Below","Fifth place and Below"),
   roses_received = c(4, 3, 3, 3, 2, 2, 3, 2, 1, 2, 2, 1, 2, 3, 2, 3, 2, 1, 2, 3, 3, 2, 2, 2, 2, 1),
   relationship_status = c("Single", "Single", "Single", "Single", "Single", "Single", "Single", "Single", "Married", "Single", "Single", "Single", "Single", "Single", "Single", "Married", "Single", "Single", "Single", "Single", "Single", "Married", "Single", "Single", "Single", "Single"),
-  image_url = c("/Users/alexisgonzalez/Downloads/images.png",  # Example image URL for "Single"
-                "/Users/alexisgonzalez/Downloads/images.png",  # Example image URL for "In a Relationship"
-                "/Users/alexisgonzalez/Downloads/images.png",  # Example image URL for "Single"
-                "/Users/alexisgonzalez/Downloads/images.png",  # Example image URL for "In a Relationship"
-                "/Users/alexisgonzalez/Downloads/images.png",
-                "/Users/alexisgonzalez/Downloads/images.png",
-                "/Users/alexisgonzalez/Downloads/images.png",
-                "/Users/alexisgonzalez/Downloads/images.png",
-                "/Users/alexisgonzalez/Downloads/images.png",
-                "/Users/alexisgonzalez/Downloads/images.png",
-                "/Users/alexisgonzalez/Downloads/images.png",
-                "/Users/alexisgonzalez/Downloads/images.png",
-                "/Users/alexisgonzalez/Downloads/images.png",
-                "/Users/alexisgonzalez/Downloads/images.png",
-                "/Users/alexisgonzalez/Downloads/images.png",
-                "/Users/alexisgonzalez/Downloads/images.png",
-                "/Users/alexisgonzalez/Downloads/images.png",
-                "/Users/alexisgonzalez/Downloads/images.png",
-                "/Users/alexisgonzalez/Downloads/images.png",
-                "/Users/alexisgonzalez/Downloads/images.png",
-                "/Users/alexisgonzalez/Downloads/images.png",
-                "/Users/alexisgonzalez/Downloads/images.png",
-                "/Users/alexisgonzalez/Downloads/images.png",
-                "/Users/alexisgonzalez/Downloads/images.png",
-                "/Users/alexisgonzalez/Downloads/images.png",
-                "/Users/alexisgonzalez/Downloads/images.png") 
+  image_url = c("himages.png",  # Example image URL for "Single"
+                "himages.png",  # Example image URL for "In a Relationship"
+                "himages.png",  # Example image URL for "Single"
+                "himages.png",  # Example image URL for "In a Relationship"
+                "himages.png",
+                "himages.png",
+                "himages.png",
+                "himages.png",
+                "himages.png",
+                "himages.png",
+                "himages.png",
+                "himages.png",
+                "himages.png",
+                "himages.png",
+                "himages.png",
+                "himages.png",
+                "himages.png",
+                "himages.png",
+                "himages.png",
+                "himages.png",
+                "himages.png",
+                "himages.png",
+                "himages.png",
+                "himages.png",
+                "himages.png",
+                "himages.png") 
 )
-
+contestants_data$image_url <- "himages.png"  
 # Replace relationship_status with image HTML
-contestants_data$relationship_status <- paste0('<img src="', contestants_data$image_url, '" width="50" height="50">')
+contestants_data$relationship_status <- paste0('<img src="',contestants_data$image_url, '" width="50" height="50">')
 
 # Load necessary libraries
 library(kableExtra)

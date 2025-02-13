@@ -194,7 +194,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="i-found-this-really-cool-analysis-from-fivethirtyeight-of-past-bachelor-and-bachelorette-seasons.-this-analysis-consists-of-a-few-graphics-that-show-patterns-in-the-bachelor-franchise-seasons.-im-going-to-recreate-the-second-graph-in-this-article-that-shows-where-the-first-impression-post-has-led-in-past-seasons.-here-is-the-original-graph" class="level3">
 <h3 class="anchored" data-anchor-id="i-found-this-really-cool-analysis-from-fivethirtyeight-of-past-bachelor-and-bachelorette-seasons.-this-analysis-consists-of-a-few-graphics-that-show-patterns-in-the-bachelor-franchise-seasons.-im-going-to-recreate-the-second-graph-in-this-article-that-shows-where-the-first-impression-post-has-led-in-past-seasons.-here-is-the-original-graph">I found this really cool analysis from fivethirtyeight of past <a href="https://fivethirtyeight.com/features/rachels-season-is-fitting-neatly-into-bachelorette-history/">bachelor and bachelorette seasons.</a> This analysis consists of a few graphics that show patterns in the bachelor franchise seasons. I’m going to recreate the second graph in this article that shows where the first impression post has led in past seasons. Here is the original graph:</h3>
-<p><img src="images/Screenshot 2025-02-12 at 7.02.55 PM.png" class="img-fluid" width="1216"></p>
+<p><img src="images/Screenshot 2025-02-12 at 7.02.55 PM-01.png" class="img-fluid"></p>
 <section id="first-i-will-load-the-necessary-packages" class="level4">
 <h4 class="anchored" data-anchor-id="first-i-will-load-the-necessary-packages">first I will load the necessary packages</h4>
 <div class="cell">
@@ -313,7 +313,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Text labels for category names</span></span>
 <span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> data, <span class="fu">aes</span>(<span class="at">x =</span> x_end <span class="sc">+</span> <span class="dv">1</span>, <span class="at">y =</span> y_end, <span class="at">label =</span> <span class="fu">paste0</span>(category, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, percentage, <span class="st">"%"</span>)), </span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>) <span class="sc">+</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>) <span class="sc">+</span></span>
 <span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Theme adjustments</span></span>
 <span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
@@ -616,36 +616,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">category =</span> <span class="fu">c</span>(<span class="st">"Fifth place and Below"</span>,<span class="st">"Winners"</span>,<span class="st">"Fifth place and Below"</span>,<span class="st">"Fifth place and Below"</span>,<span class="st">"Winners"</span>, <span class="st">"Winners"</span>, <span class="st">"Runners-up"</span>, <span class="st">"Fifth place and Below"</span>,<span class="st">"Fourth place"</span>,<span class="st">"Fourth place"</span>,<span class="st">"Winners"</span>,<span class="st">"Fifth place and Below"</span>,<span class="st">"Winners"</span>,<span class="st">"Fifth place and Below"</span>,<span class="st">"Winners"</span>,<span class="st">"Fifth place and Below"</span>,<span class="st">"Fourth place"</span>,<span class="st">"Fourth place"</span>,<span class="st">"Fourth place"</span>,<span class="st">"Runners-up"</span>,<span class="st">"Third Place"</span>,<span class="st">"Fourth place"</span>,<span class="st">"Third Place"</span>,<span class="st">"Fifth place and Below"</span>,<span class="st">"Fifth place and Below"</span>,<span class="st">"Fifth place and Below"</span>),</span>
 <span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">roses_received =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>),</span>
 <span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">relationship_status =</span> <span class="fu">c</span>(<span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Married"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Married"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Married"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>),</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">image_url =</span> <span class="fu">c</span>(<span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,  <span class="co"># Example image URL for "Single"</span></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,  <span class="co"># Example image URL for "In a Relationship"</span></span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,  <span class="co"># Example image URL for "Single"</span></span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,  <span class="co"># Example image URL for "In a Relationship"</span></span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,</span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,</span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,</span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,</span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,</span>
-<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,</span>
-<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,</span>
-<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,</span>
-<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,</span>
-<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,</span>
-<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,</span>
-<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,</span>
-<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,</span>
-<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,</span>
-<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,</span>
-<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,</span>
-<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,</span>
-<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,</span>
-<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,</span>
-<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,</span>
-<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>,</span>
-<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>                <span class="st">"/Users/alexisgonzalez/Downloads/images.png"</span>) </span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">image_url =</span> <span class="fu">c</span>(<span class="st">"himages.png"</span>,  <span class="co"># Example image URL for "Single"</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,  <span class="co"># Example image URL for "In a Relationship"</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,  <span class="co"># Example image URL for "Single"</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,  <span class="co"># Example image URL for "In a Relationship"</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>) </span>
 <span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>contestants_data<span class="sc">$</span>image_url <span class="ot">&lt;-</span> <span class="st">"himages.png"</span>  </span>
 <span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace relationship_status with image HTML</span></span>
-<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>contestants_data<span class="sc">$</span>relationship_status <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">'&lt;img src="'</span>, contestants_data<span class="sc">$</span>image_url, <span class="st">'" width="50" height="50"&gt;'</span>)</span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>contestants_data<span class="sc">$</span>relationship_status <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">'&lt;img src="'</span>,contestants_data<span class="sc">$</span>image_url, <span class="st">'" width="50" height="50"&gt;'</span>)</span>
 <span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
 <span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -707,8 +707,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelorette</td>
 <td style="text-align: left; color: blue !important;">Fifth place and Below</td>
 <td style="text-align: right; background-color: lightpink !important;">4</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">12_JORDAN_R</td>
@@ -716,8 +716,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelorette</td>
 <td style="text-align: left; color: blue !important;">Winners</td>
 <td style="text-align: right; background-color: lightpink !important;">3</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">11_SHAWN_B</td>
@@ -725,8 +725,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelorette</td>
 <td style="text-align: left; color: blue !important;">Fifth place and Below</td>
 <td style="text-align: right; background-color: lightpink !important;">3</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">10_NICK_V</td>
@@ -734,8 +734,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelorette</td>
 <td style="text-align: left; color: blue !important;">Fifth place and Below</td>
 <td style="text-align: right; background-color: lightpink !important;">3</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">09_BEN_S</td>
@@ -743,8 +743,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelorette</td>
 <td style="text-align: left; color: blue !important;">Winners</td>
 <td style="text-align: right; background-color: lightpink !important;">2</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">08_DOUG_C</td>
@@ -752,8 +752,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelorette</td>
 <td style="text-align: left; color: blue !important;">Winners</td>
 <td style="text-align: right; background-color: lightpink !important;">2</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">07_RYAN_P</td>
@@ -761,8 +761,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelorette</td>
 <td style="text-align: left; color: blue !important;">Runners-up</td>
 <td style="text-align: right; background-color: lightpink !important;">3</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">06_ROBERT_M</td>
@@ -770,8 +770,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelorette</td>
 <td style="text-align: left; color: blue !important;">Fifth place and Below</td>
 <td style="text-align: right; background-color: lightpink !important;">2</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">05_DAVID_G</td>
@@ -779,8 +779,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelorette</td>
 <td style="text-align: left; color: blue !important;">Fourth place</td>
 <td style="text-align: right; background-color: lightpink !important;">1</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">04_JESSE_C</td>
@@ -788,8 +788,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelorette</td>
 <td style="text-align: left; color: blue !important;">Fourth place</td>
 <td style="text-align: right; background-color: lightpink !important;">2</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">03_KEITH</td>
@@ -797,8 +797,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelorette</td>
 <td style="text-align: left; color: blue !important;">Winners</td>
 <td style="text-align: right; background-color: lightpink !important;">2</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">21_VANESSA_G</td>
@@ -806,8 +806,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
 <td style="text-align: left; color: blue !important;">Fifth place and Below</td>
 <td style="text-align: right; background-color: lightpink !important;">1</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">20_OLIVIA_C</td>
@@ -815,8 +815,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
 <td style="text-align: left; color: blue !important;">Winners</td>
 <td style="text-align: right; background-color: lightpink !important;">2</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">19_BRITT_N</td>
@@ -824,8 +824,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
 <td style="text-align: left; color: blue !important;">Fifth place and Below</td>
 <td style="text-align: right; background-color: lightpink !important;">3</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">18_SHARLEEN_J</td>
@@ -833,8 +833,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
 <td style="text-align: left; color: blue !important;">Winners</td>
 <td style="text-align: right; background-color: lightpink !important;">2</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">17_TIERRA_L</td>
@@ -842,8 +842,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
 <td style="text-align: left; color: blue !important;">Fifth place and Below</td>
 <td style="text-align: right; background-color: lightpink !important;">3</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">16_LINDZI_C</td>
@@ -851,8 +851,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
 <td style="text-align: left; color: blue !important;">Fourth place</td>
 <td style="text-align: right; background-color: lightpink !important;">2</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">15_ASHLEY_S</td>
@@ -860,8 +860,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
 <td style="text-align: left; color: blue !important;">Fourth place</td>
 <td style="text-align: right; background-color: lightpink !important;">1</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">14_TENLEY_M</td>
@@ -869,8 +869,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
 <td style="text-align: left; color: blue !important;">Fourth place</td>
 <td style="text-align: right; background-color: lightpink !important;">2</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">13_NIKKI_K</td>
@@ -878,8 +878,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
 <td style="text-align: left; color: blue !important;">Runners-up</td>
 <td style="text-align: right; background-color: lightpink !important;">3</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">12_AMANDA_R</td>
@@ -887,8 +887,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
 <td style="text-align: left; color: blue !important;">Third Place</td>
 <td style="text-align: right; background-color: lightpink !important;">3</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">11_JENNI_C</td>
@@ -896,8 +896,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
 <td style="text-align: left; color: blue !important;">Fourth place</td>
 <td style="text-align: right; background-color: lightpink !important;">2</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">10_STEPHANIE_T</td>
@@ -905,8 +905,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
 <td style="text-align: left; color: blue !important;">Third Place</td>
 <td style="text-align: right; background-color: lightpink !important;">2</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">09_LISA_B</td>
@@ -914,8 +914,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
 <td style="text-align: left; color: blue !important;">Fifth place and Below</td>
 <td style="text-align: right; background-color: lightpink !important;">2</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">07_Sarah W.</td>
@@ -923,8 +923,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
 <td style="text-align: left; color: blue !important;">Fifth place and Below</td>
 <td style="text-align: right; background-color: lightpink !important;">2</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">05_TRISH_S</td>
@@ -932,8 +932,8 @@ Contestants Info
 <td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
 <td style="text-align: left; color: blue !important;">Fifth place and Below</td>
 <td style="text-align: right; background-color: lightpink !important;">1</td>
-<td style="text-align: left; background-color: lightpink !important;"><img src="../Users/alexisgonzalez/Downloads/images.png" width="50" height="50"></td>
-<td style="text-align: left;">/Users/alexisgonzalez/Downloads/images.png</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
 </tr>
 </tbody>
 </table>
