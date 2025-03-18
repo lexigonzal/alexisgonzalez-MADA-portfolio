@@ -1,0 +1,287 @@
+---
+title: "Model Fitting Exercise"
+---
+
+#Loading in the usual packages
+```{r}
+library(tidyverse)
+library(tidymodels)
+library(ggplot2)
+```
+#Load in the data
+```{r}
+data_path <- file.path("/Users/alexisgonzalez/Desktop/MADA/alexisgonzalez-MADA-portfolio/fitting-exercise/data/Mavoglurant_A2121_nmpk.csv")
+drug_data <- read.csv(data_path)
+
+```
+#Checking if my data loaded in properly
+```{r}
+str(drug_data)
+summary(drug_data)
+```
+#Plotting DV by time and stratisfying by dose for each person
+```{r}
+ggplot(drug_data, aes(x = TIME, y = DV, group = ID, color = as.factor(DOSE))) +
+  geom_line(alpha = 0.7) +
+  labs(x = "TIME", y = "DV", color = "DOSE") +
+  theme_minimal() +
+  theme(legend.position = "top")
+```
+#Removing all entries with OCC=2
+```{r}
+drug_data2 <- drug_data %>%
+  filter(OCC != 2)
+```
+#Removing time=0 and adding DV for each ID
+```{r}
+drug_data3 <- drug_data2 %>%
+  filter(TIME != 0) %>%
+  group_by(ID) %>%
+  summarize(Y = sum(DV, na.rm = TRUE))
+```
+#Data frame where time=0
+```{r}
+time_zero <- drug_data2 %>%
+  filter(TIME==0)
+
+```
+#Inner joining the data (maybe?)
+```{r}
+combined_data <- inner_join(drug_data3, time_zero, by = "ID")
+```
+#Filtering the data more by removing OCC and EVID and converting RACE and SEX into factor variables
+```{r}
+drug_data_final <- combined_data %>%
+  select(-OCC,-EVID) %>%
+  mutate(
+    RACE = as.factor(RACE),
+    SEX = as.factor(SEX)
+  )
+
+```
+#Exploratory Analysis
+#Summary tables
+```{r}
+summary_table <- drug_data_final %>%
+  summarize(
+    n = n(),  # Number of observations
+    mean_Y = mean(Y, na.rm = TRUE),
+    sd_Y = sd(Y, na.rm = TRUE),
+    min_Y = min(Y, na.rm = TRUE),
+    max_Y = max(Y, na.rm = TRUE)
+  )
+print(summary_table)
+```
+
+```{r}
+summary_table <- drug_data_final %>%
+  summarize(
+    n = n(),  # Number of observations
+    mean_WT = mean(WT, na.rm = TRUE),
+    sd_WT = sd(WT, na.rm = TRUE),
+    min_WT = min(WT, na.rm = TRUE),
+    max_WT = max(WT, na.rm = TRUE)
+  )
+print(summary_table)
+
+```
+
+```{r}
+summary_table <- drug_data_final %>%
+  summarize(
+    n = n(),  # Number of observations
+    mean_HT = mean(HT, na.rm = TRUE),
+    sd_HT = sd(HT, na.rm = TRUE),
+    min_HT = min(HT, na.rm = TRUE),
+    max_HT = max(HT, na.rm = TRUE)
+  )
+print(summary_table)
+```
+
+#Summary Figures
+#####plotting WT vs HT in a scatter plot
+```{r}
+ggplot(drug_data_final, aes(x = WT, y = HT)) +
+  geom_point(color = "blue", size = 3, alpha = 0.7) + 
+  labs(title = "Scatter Plot of Weight vs Height",
+       x = "Weight (kg)",
+       y = "Height (cm)") +
+  theme_minimal()
+```
+#Distribution of dose across ages
+```{r}
+ggplot(drug_data_final, aes(x = Y)) +
+  geom_histogram(fill = "purple", bins = 15, alpha = 0.7) +
+  facet_wrap(~ cut(AGE, breaks = seq(20, 80, by = 10))) +  # Group age into bins
+  labs(title = "Histogram of total drug Y for Different Age Groups",
+       x = "Dose",
+       y = "Count") +
+  theme_minimal()
+
+```
+#Distribution of Y by HT and WT
+```{r}
+ggplot(drug_data_final, aes(x = HT, y = Y)) +
+  geom_point(color = "blue", alpha = 0.6) +  
+  geom_smooth(method = "loess", color = "red", se = FALSE) +  
+  labs(title = "Scatter Plot of Total Drug (Y) by Height",
+       x = "Height",
+       y = "Total Drug (Y)") +
+  theme_minimal()
+```
+#WT
+```{r}
+ggplot(drug_data_final, aes(x = WT, y = Y)) +
+  geom_point(color = "blue", alpha = 0.6) +  
+  geom_smooth(method = "loess", color = "red", se = FALSE) +  
+  labs(title = "Scatter Plot of Total Drug (Y) by Height",
+       x = "Height",
+       y = "Total Drug (Y)") +
+  theme_minimal()
+```
+#Distribution of Y by Race
+```{r}
+ggplot(drug_data_final, aes(x = factor(RACE), y = Y)) +
+  stat_summary(fun = mean, geom = "col", fill = "orange") +
+  labs(title = "Average Total Drug (Y) by Race",
+       x = "Race",
+       y = "Mean Total Drug (Y)") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
+#Y by Sex 
+```{r}
+ggplot(drug_data_final, aes(x = factor(SEX), y = Y)) +
+  stat_summary(fun = mean, geom = "col", fill = "pink") +
+  labs(title = "Average Total Drug (Y) by Sex",
+       x = "Race",
+       y = "Mean Total Drug (Y)") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+### Now I will use tidymodels to fit a linear model to Y by Dose
+#### First i will use parsnips package to specify the model that I want to use. Since there are continouos variables this will be a linear model
+```{r}
+lm_model <- linear_reg() %>%
+  set_engine("lm")
+```
+#From here I can estimate the model using the fit function. I will be looking at Y ~ Dose x ID
+```{r}
+lm_fit <-
+  lm_model %>%
+  fit(Y ~ DOSE, data = drug_data_final)
+lm_fit
+```
+#I can use tidy function to describe my model 
+```{r}
+tidy(lm_fit)
+```
+#Now I will repeat the process but I will fit the model to outcome Y using all predictors
+```{r}
+lm_fit2 <-
+  lm_model %>%
+  fit(Y ~ DOSE * RATE * AGE * SEX * SEX * RACE * HT * WT, data=drug_data_final)
+lm_fit2
+
+```
+
+```{r}
+tidy(lm_fit2)
+```
+#Logistic model requires a categorical variable, I dont know which is male or female but i will make sure this variable categorical
+```{r}
+drug_data_final$SEX <- as.factor(drug_data_final$SEX)
+
+```
+
+####Now I will repeat the process with a logistic model. starting with the parsnips package to specify my model
+
+```{r}
+log_model <- logistic_reg() %>%
+  set_engine("glm") %>%
+  set_mode("classification")
+```
+#Fitting the model
+```{r}
+log_fit <-
+  log_model %>%
+  fit(SEX ~ DOSE , data = drug_data_final)
+log_fit
+```
+#Fitting the model the long way?
+```{r}
+logistic_mod <- logistic_reg() %>% 
+  set_engine("glm") %>%  
+  set_mode("classification")  
+
+#Creating a recipe
+data_recipe <- recipe(SEX ~ DOSE, data=drug_data_final) 
+#Creating a workflow
+logistic_workflow <- workflow() %>%
+  add_model(logistic_mod) %>%
+  add_recipe(data_recipe)
+#fitting the model
+logistic_fit <- logistic_workflow %>%
+  fit(data = drug_data_final)
+#checking to see if it worked 
+tidy(logistic_fit)  # View model coefficients
+glance(logistic_fit)  # View overall model performance
+
+```
+#Computing accuracy
+```{r}
+set.seed(1)
+data_split <- initial_split(drug_data_final, prop = 0.8, strata = SEX)
+train_data <- training(data_split)
+test_data <- testing(data_split)
+
+#adding the recipe and workflow
+#Creating a recipe
+data_recipe <- recipe(SEX ~ DOSE, data=drug_data_final) 
+#Creating a workflow
+logistic_workflow <- workflow() %>%
+  add_model(logistic_mod) %>%
+  add_recipe(data_recipe)
+#fit the model to training data
+logistic_fit <- logistic_workflow %>%
+  fit(data = train_data)
+#Making predictions on data
+test_predictions <- logistic_fit %>%
+  predict(new_data = test_data, type = "prob") %>%  # Get probabilities
+  bind_cols(predict(logistic_fit, new_data = test_data)) %>%  # Get class predictions
+  bind_cols(test_data)  # Add actual values
+#computing accuracy
+accuracy_result <- test_predictions %>%
+  metrics(truth = SEX, estimate = .pred_class) %>%
+  filter(.metric == "accuracy")
+
+print(accuracy_result)
+
+roc_auc_result <- test_predictions %>%
+  roc_auc(truth = SEX, 1)  # Adjust `.pred_Male` based on levels in SEX
+
+print(roc_auc_result)
+
+
+```
+
+#Fitting to all model
+```{r}
+logistic_mod2 <- logistic_reg() %>% 
+  set_engine("glm") %>%  
+  set_mode("classification")  
+data_recipe2 <-recipe(SEX ~ DOSE * RATE * AGE * Y * RACE * HT * WT, data = drug_data_final)
+logistic_workflow2 <- workflow() %>%
+  add_model(logistc_mod2) %>%
+  add_recipe(data_recipe2)
+logisitic_fit2 <- logistic_workflow2 %>%
+  fit(data = drug_data_final)
+log_fit2 <-
+  log_model %>%
+  fit(SEX ~ DOSE * RATE * AGE * Y * RACE * HT * WT, data = drug_data_final)
+log_fit2
+```
+```
+
