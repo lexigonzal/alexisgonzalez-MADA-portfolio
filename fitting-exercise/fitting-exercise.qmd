@@ -178,6 +178,43 @@ lm_fit
 ```{r}
 tidy(lm_fit)
 ```
+
+
+```{r}
+
+# Define a linear regression model
+lm_model <- linear_reg() %>% 
+  set_engine("lm")
+
+# Create a recipe (preprocessing steps, if any)
+lm_recipe <- recipe(Y ~ DOSE, data = drug_data_final)
+
+# Create a workflow
+lm_workflow <- workflow() %>%
+  add_model(lm_model) %>%
+  add_recipe(lm_recipe)
+
+# Fit the model
+lm_fit <- lm_workflow %>% fit(data = drug_data_final)
+
+```
+
+
+```{r}
+# Make predictions on test data
+predictions <- predict(lm_fit, new_data = test_data) %>%
+  bind_cols(test_data)  # Combine predictions with actual values
+
+# Compute performance metrics
+metrics <- predictions %>%
+  metrics(truth = Y, estimate = .pred)
+
+# Print results
+metrics
+
+```
+
+
 #Now I will repeat the process but I will fit the model to outcome Y using all predictors
 ```{r}
 lm_fit2 <-
@@ -190,6 +227,40 @@ lm_fit2
 ```{r}
 tidy(lm_fit2)
 ```
+#R-squared and RMSE
+```{r}
+# Define a linear regression model
+lm_model <- linear_reg() %>% 
+  set_engine("lm")
+
+# Create a recipe (preprocessing steps, if any)
+lm_recipe2 <- recipe(Y ~ DOSE + RATE + AGE + SEX + RACE + HT + WT, data = drug_data_final)
+
+# Create a workflow
+lm_workflow2 <- workflow() %>%
+  add_model(lm_model) %>%
+  add_recipe(lm_recipe)
+
+# Fit the model
+lm_fit2 <- lm_workflow %>% fit(data = drug_data_final)
+
+```
+
+
+```{r}
+# Make predictions on test data
+predictions2 <- predict(lm_fit2, new_data = test_data) %>%
+  bind_cols(test_data) 
+
+# Compute performance metrics
+metrics2 <- predictions2 %>%
+  metrics(truth = Y, estimate = .pred)
+
+# Print results
+metrics2
+
+```
+
 #Logistic model requires a categorical variable, I dont know which is male or female but i will make sure this variable categorical
 ```{r}
 drug_data_final$SEX <- as.factor(drug_data_final$SEX)
@@ -283,5 +354,122 @@ log_fit2 <-
   fit(SEX ~ DOSE * RATE * AGE * Y * RACE * HT * WT, data = drug_data_final)
 log_fit2
 ```
+
+
+
+#MODULE 10 STUFF
+#Removing the RACE variable from the dataset
+
+#setting seed
+```{r}
+rngseed=1234
 ```
+#Removing variables 
+```{r}
+drugdata_new <- drug_data_final %>%
+  select(Y,DOSE,AGE,SEX,WT,HT)
+```
+#Random sampling seed
+```{r}
+set.seed(rngseed)
+```
+#splitting the data 75% training
+```{r}
+data_split <- initial_split(drugdata_new, prop = 3/4)
+train_data <- training(data_split)
+test_data <-testing(data_split)
+```
+
+#Model fitting using dose only as a predictor
+```{r}
+# Define a linear regression model
+lm_mod <- linear_reg() %>% 
+  set_engine("lm")
+
+# Create the model
+lm_moddose <- lm_mod %>%
+  fit(Y ~ DOSE, data=train_data)
+
+```
+
+#Model fitting using all as a predictor
+
+```{r}
+# Define a linear regression model
+lm_mod <- linear_reg() %>% 
+  set_engine("lm")
+#Create model
+lm_modall <- lm_mod %>%
+  fit(Y ~ DOSE * AGE * SEX * WT * HT, data = train_data)
+```
+
+#Null model
+```{r}
+#Null model
+null_model <- null_model(mode = "regression") %>%
+  set_engine("parsnip") %>%
+  fit(Y ~ 1, data= train_data)
+```
+
+#Computing predications lm_mod and lm_modall
+```{r}
+#predictions for dose, all, and null
+predictsdose <- predict(lm_moddose, new_data = train_data)
+predictall <-predict(lm_modall, new_data = train_data)
+predictnull <- predict(null_model, new_data = train_data)
+```
+#Calculating RMSE & r-squared
+```{r}
+rmse_dose <- tibble(truth = train_data$Y, predicted = predictsdose$.pred) %>%
+  metrics(truth = truth, estimate = predicted)
+print(rmse_dose)
+```
+
+```{r}
+rmse_all <- tibble(truth = train_data$Y, predicted = predictall$.pred) %>%
+  metrics(truth = truth, estimate = predicted)
+print(rmse_all)
+```
+```{r}
+rmse_null <- tibble(truth = train_data$Y, predicted = predictnull$.pred) %>%
+  metrics(truth = truth, estimate = predicted)
+print(rmse_null)
+```
+#Model performance 2
+
+#Setting a new seed for samplign
+```{r}
+set.seed(1234)
+```
+#10 fold CV
+```{r}
+folds <- vfold_cv(train_data, v=10)
+folds
+```
+#Workflow for dose only model
+```{r}
+dose_wf <- workflow() %>%
+  add_model(lm_mod) %>%
+  add_formula(Y ~ DOSE)
+set.seed(1111)
+dose_fit_rs <- dose_wf %>%
+  fit_resamples(folds)
+```
+#RMSE
+```{r}
+collect_metrics(dose_fit_rs)
+```
+#Workflow for all predictors
+```{r}
+all_wf <- workflow() %>%
+  add_model(lm_mod) %>%
+  add_formula(Y ~ DOSE * AGE * SEX * WT * HT)
+set.seed(2222)
+all_fit_rs <- all_wf %>%
+  fit_resamples(folds)
+```
+```{r}
+collect_metrics(all_fit_rs)
+```
+
 
