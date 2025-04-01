@@ -202,8 +202,8 @@ lm_fit <- lm_workflow %>% fit(data = drug_data_final)
 
 ```{r}
 # Make predictions on test data
-predictions <- predict(lm_fit, new_data = test_data) %>%
-  bind_cols(test_data)  # Combine predictions with actual values
+predictions <- predict(lm_fit, new_data = drug_data_final) %>%
+  bind_cols(drug_data_final)  # Combine predictions with actual values
 
 # Compute performance metrics
 metrics <- predictions %>%
@@ -249,8 +249,8 @@ lm_fit2 <- lm_workflow %>% fit(data = drug_data_final)
 
 ```{r}
 # Make predictions on test data
-predictions2 <- predict(lm_fit2, new_data = test_data) %>%
-  bind_cols(test_data) 
+predictions2 <- predict(lm_fit2, new_data = drug_data_final) %>%
+  bind_cols(drug_data_final) 
 
 # Compute performance metrics
 metrics2 <- predictions2 %>%
@@ -343,10 +343,9 @@ print(roc_auc_result)
 logistic_mod2 <- logistic_reg() %>% 
   set_engine("glm") %>%  
   set_mode("classification")  
-data_recipe2 <-recipe(SEX ~ DOSE * RATE * AGE * Y * RACE * HT * WT, data = drug_data_final)
 logistic_workflow2 <- workflow() %>%
-  add_model(logistc_mod2) %>%
-  add_recipe(data_recipe2)
+  add_model(logistic_mod2) %>%
+  add_formula(SEX ~ DOSE * RATE * AGE * Y * RACE * HT * WT)
 logisitic_fit2 <- logistic_workflow2 %>%
   fit(data = drug_data_final)
 log_fit2 <-
