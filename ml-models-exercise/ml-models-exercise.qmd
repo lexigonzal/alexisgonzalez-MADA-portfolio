@@ -1,0 +1,260 @@
+---
+title: "Moduel 11 Exercise"
+---
+
+```{r}
+#Load in packages
+library(tidyr)
+library(here)
+library(ggplot2)
+library(tidyverse)
+library(tidymodels)
+library(glmnet)
+library(ranger)
+```
+#Read the RDS file with the cleaned data
+```{r}
+file.copy("/Users/alexisgonzalez/Desktop/MADA/alexisgonzalez-MADA-portfolio/fitting-exercise/drug_data.rds", "/Users/alexisgonzalez/Desktop/MADA/alexisgonzalez-MADA-portfolio/ml-models-exercise/drug_data.rds")
+
+```
+```{r}
+drug_data <- readRDS("/Users/alexisgonzalez/Desktop/MADA/alexisgonzalez-MADA-portfolio/ml-models-exercise/drug_data.rds")
+
+```
+
+
+```{r}
+set.seed(1234)
+```
+
+
+```{r}
+unique(drug_data$RACE)
+```
+```{r}
+ggplot(drug_data, aes(x = factor(RACE))) +
+  geom_bar(fill = "pink") +
+  labs(title = "Distribution of RACE Variable", x = "Race", y = "Count") +
+  theme_minimal() +
+  coord_flip()  # Flip for better readability if many categories
+
+```
+#Going based on distribution of race in the general population I will assume 1 = white 2= black 7= asian and 88= hispanic/latino 
+
+#combining categories 7 and 88 
+```{r}
+# Example: Combine "Asian" and "Pacific Islander" into "Asian/Pacific"
+drug_data$RACE <- ifelse(drug_data$RACE %in% c("7", "88"), "3", drug_data$RACE)
+
+```
+#CHecking to see if it worked
+```{r}
+ggplot(drug_data, aes(x = factor(RACE))) +
+  geom_bar(fill = "pink") +
+  labs(title = "Distribution of RACE Variable", x = "Race", y = "Count") +
+  theme_minimal() +
+  coord_flip()  
+```
+
+#Pairwise correlation for the continous variables. The continous variables are AGE, WT, HT and Y
+
+```{r}
+numeric_data <- drug_data[sapply(drug_data, is.numeric)]
+correlation_matrix <- cor(numeric_data, use = "pairwise.complete.obs")
+print(correlation_matrix)
+
+```
+#Feature engineering
+```{r}
+#The formula for bmi is kg/m^2. The height variable is clearly in meters and the weight would be really small if they were in lbs so I will assume it is in kgs
+drug_bmi <- drug_data %>%
+  mutate(BMI = WT/(HT^2))
+```
+
+
+#First fit
+```{r}
+set.seed(1234)
+```
+#recipe for fitting y to all 
+```{r}
+recipe1 <- recipe(Y ~ ., data = drug_bmi) %>%
+  step_normalize(all_numeric_predictors()) %>%
+  step_dummy(all_nominal_predictors()) %>%
+  step_zv(all_predictors()) %>%
+  step_impute_median(all_numeric_predictors())
+
+```
+
+```{r}
+
+```
+
+#defining the model
+```{r}
+model1 <- linear_reg() %>%
+  set_engine("lm")
+```
+#Workflow
+```{r}
+workflow1 <- workflow() %>%
+  add_model(model1) %>%
+  add_recipe(recipe1)
+```
+#fit the model to all of the data
+```{r}
+fit1 <- workflow1 %>%
+  fit(data = drug_bmi)
+```
+#make predictions
+```{r}
+predictions1 <- fit1 %>%
+  predict(new_data = drug_bmi) %>%
+  bind_cols(drug_bmi)
+```
+#metrics
+```{r}
+metrics1 <- predictions1 %>%
+  metrics(truth = Y, estimate = .pred)
+print(metrics1)
+
+```
+#note: the RMSE for the null model was 969.5
+
+#LASSO
+#defining the model
+```{r}
+lasso_model <- linear_reg(penalty = 0.1 , mixture = 1) %>%
+  set_engine("glmnet")
+```
+#workflow
+```{r}
+workflow2 <- workflow() %>%
+  add_model(lasso_model) %>%
+  add_recipe(recipe1) #I can use the same recipe as the last model
+```
+#fit the data
+```{r}
+lasso_fit <- workflow2 %>%
+  fit(data = drug_bmi)
+```
+#take out features 
+```{r}
+tidy(lasso_fit$fit$fit)
+```
+#make predictions on lasso fit 
+```{r}
+predictions2 <- lasso_fit %>%
+  predict(new_data = drug_bmi) %>%
+  bind_cols(drug_bmi)
+```
+#evaluation
+```{r}
+metrics2 <- predictions2 %>%
+  metrics( truth = Y, estimate = .pred)
+print(metrics2)
+```
+#The lasso and linear results are almost identical. This means that LASSO isn't doing much feature selection so the variables that ae being used are relevant. 
+
+#Random Forest model 
+```{r}
+set.seed(123)
+rngseed <- 123
+```
+
+#define the model
+```{r}
+random_model <- rand_forest(trees = 150, min_n = 5) %>%
+  set_mode("regression") %>%
+  set_engine("ranger", seed = rngseed) 
+```
+#create workflow
+```{r}
+workflow3 <-workflow() %>%
+  add_model(random_model) %>%
+  add_recipe(recipe1)
+```
+#fit the model
+```{r}
+random_fit <- workflow3 %>%
+  fit(data = drug_bmi)
+```
+#make predictions
+```{r}
+predictions3  <- random_fit %>%
+  predict(new_data = drug_bmi) %>%
+  bind_cols(drug_bmi)
+```
+#evaluation 
+```{r}
+metrics3 <- predictions3 %>%
+  metrics( truth = Y, estimate = .pred)
+print(metrics3)
+```
+#The RMSE and the r-squared values are different from the linear and lasso models. The RMSE is lower while the r-squared value is higher. The dataset may be a little too complex and non-linear for linear regression so the random forest handles it better.
+
+#Now i will plot the observed vs predicted values for each model.
+
+```{r}
+#combine the prediction datasets
+
+# identify each dataset
+predictions1 <- predictions1 %>% mutate(model = "Linear")
+predictions2 <- predictions2 %>% mutate(model = "LASSO")
+predictions3 <- predictions3 %>% mutate(model = "Random Forest")
+
+all_predictions <- bind_rows(predictions1, predictions2, predictions3)
+
+```
+
+```{r}
+ggplot(all_predictions, aes(x = Y, y = .pred, color = model, shape = model)) +
+  geom_point(alpha = 0.6, size = 3) +
+  scale_shape_manual(values = c("Linear" = 15, "LASSO" = 17, "Random Forest" = 16)) +  
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "black", size = 1) +
+  labs(title = "Observed vs Predicted Values",
+       x = "Observed Values",
+       y = "Predicted Values") +
+  theme_minimal()
+
+```
+#the linear points and lasso points are nearly identical while random forest plots lie closer to the 45 degree line. 
+
+#Model tuning
+```{r}
+```
+
+```{r}
+set.seed(1234)
+```
+
+#tuning the LASSO model with a tune grid
+```{r}
+lasso_model2 <- linear_reg(penalty = tune() , mixture = 1) %>%
+  set_engine("glmnet")
+```
+
+```{r}
+lasso_wf <-workflow() %>%
+  add_model(lasso_model2) %>%
+  add_recipe(recipe1)
+```
+
+```{r}
+lasso_grid <-tibble(penalty = 10^seq(-5, 2, length.out = 50))
+lasso_grid
+```
+#evaluate
+```{r}
+apparent_lasso <- apparent(drug_bmi)
+apparent_lasso
+```
+#Tune the model
+```{r}
+
+```
+
+```{r}
+
+```
+

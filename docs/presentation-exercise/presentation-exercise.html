@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>R Coding Exercise – Alexis Gonzalez Data Analysis Portfolio</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-b6254045a21d07dd46cfe160e8c2e3db.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="../site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Alexis Gonzalez Data Analysis Portfolio</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../aboutme.html"> 
+<span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projects</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
+        <li>
+    <a class="dropdown-item" href="../starter-analysis-exercise/products/report/starter-analysis-report.html">
+ <span class="dropdown-text">Starter Analysis Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../coding-exercise/coding-exercise.html">
+ <span class="dropdown-text">R Coding Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../cdcdata-exercise/cdcdata-excercise.html">
+ <span class="dropdown-text">CDC Data Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../presentation-exercise/presentation-exercise.html">
+ <span class="dropdown-text">Presentation Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../data-exercise/data-exercise.html">
+ <span class="dropdown-text">Complex Data Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../fitting-exercise/fitting-exercise.html">
+ <span class="dropdown-text">Fitting Exercise</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/lexigonzal/alexisgonzalez-MADA-portfolio.git"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">R Coding Exercise</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="i-found-this-really-cool-analysis-from-fivethirtyeight-of-past-bachelor-and-bachelorette-seasons.-this-analysis-consists-of-a-few-graphics-that-show-patterns-in-the-bachelor-franchise-seasons.-im-going-to-recreate-the-second-graph-in-this-article-that-shows-where-the-first-impression-post-has-led-in-past-seasons.-here-is-the-original-graph" class="level3">
+<h3 class="anchored" data-anchor-id="i-found-this-really-cool-analysis-from-fivethirtyeight-of-past-bachelor-and-bachelorette-seasons.-this-analysis-consists-of-a-few-graphics-that-show-patterns-in-the-bachelor-franchise-seasons.-im-going-to-recreate-the-second-graph-in-this-article-that-shows-where-the-first-impression-post-has-led-in-past-seasons.-here-is-the-original-graph">I found this really cool analysis from fivethirtyeight of past <a href="https://fivethirtyeight.com/features/rachels-season-is-fitting-neatly-into-bachelorette-history/">bachelor and bachelorette seasons.</a> This analysis consists of a few graphics that show patterns in the bachelor franchise seasons. I’m going to recreate the second graph in this article that shows where the first impression post has led in past seasons. Here is the original graph:</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Screenshot 2025-02-12 at 7.02.55 PM-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+<section id="first-i-will-load-the-necessary-packages" class="level4">
+<h4 class="anchored" data-anchor-id="first-i-will-load-the-necessary-packages">first I will load the necessary packages</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggforce)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>here() starts at /Users/alexisgonzalez/Desktop/MADA/alexisgonzalez-MADA-portfolio</code></pre>
+</div>
+</div>
+</section>
+<section id="now-i-will-load-in-the-dataset" class="level4">
+<h4 class="anchored" data-anchor-id="now-i-will-load-in-the-dataset">Now I will load in the dataset</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>bach <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"/Users/alexisgonzalez/Desktop/MADA/alexisgonzalez-MADA-portfolio/presentation-exercise/bachelorette/bachelorette.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(bach)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   921 obs. of  23 variables:
+ $ SHOW          : chr  "SHOW" "Bachelorette" "Bachelorette" "Bachelorette" ...
+ $ SEASON        : chr  "SEASON" "13" "13" "13" ...
+ $ CONTESTANT    : chr  "ID" "13_BRYAN_A" "13_PETER_K" "13_ERIC_B" ...
+ $ ELIMINATION.1 : chr  "1" "R1" "" "" ...
+ $ ELIMINATION.2 : chr  "2" "" "R" "" ...
+ $ ELIMINATION.3 : chr  "3" "" "" "R" ...
+ $ ELIMINATION.4 : chr  "4" "R" "" "" ...
+ $ ELIMINATION.5 : chr  "5" "R" "" "" ...
+ $ ELIMINATION.6 : chr  "6" "" "R" "R" ...
+ $ ELIMINATION.7 : chr  "7" "R" "R" "R" ...
+ $ ELIMINATION.8 : chr  "8" "" "" "" ...
+ $ ELIMINATION.9 : chr  "9" "" "" "E" ...
+ $ ELIMINATION.10: chr  "10" "W" "E" "" ...
+ $ DATES.1       : chr  "1" "" "" "" ...
+ $ DATES.2       : chr  "2" "" "D1" "D10" ...
+ $ DATES.3       : chr  "3" "D6" "D6" "D8" ...
+ $ DATES.4       : chr  "4" "D13" "D13" "D13" ...
+ $ DATES.5       : chr  "5" "D1" "D9" "D9" ...
+ $ DATES.6       : chr  "6" "D7" "D7" "D1" ...
+ $ DATES.7       : chr  "7" "D1" "D1" "D3" ...
+ $ DATES.8       : chr  "8" "D1" "D1" "D1" ...
+ $ DATES.9       : chr  "9" "D1" "D1" "D1" ...
+ $ DATES.10      : chr  "10" "D1" "D1" "" ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bach)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     SHOW              SEASON           CONTESTANT        ELIMINATION.1     
+ Length:921         Length:921         Length:921         Length:921        
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+ ELIMINATION.2      ELIMINATION.3      ELIMINATION.4      ELIMINATION.5     
+ Length:921         Length:921         Length:921         Length:921        
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+ ELIMINATION.6      ELIMINATION.7      ELIMINATION.8      ELIMINATION.9     
+ Length:921         Length:921         Length:921         Length:921        
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+ ELIMINATION.10       DATES.1            DATES.2            DATES.3         
+ Length:921         Length:921         Length:921         Length:921        
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+   DATES.4            DATES.5            DATES.6            DATES.7         
+ Length:921         Length:921         Length:921         Length:921        
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+   DATES.8            DATES.9            DATES.10        
+ Length:921         Length:921         Length:921        
+ Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character  </code></pre>
+</div>
+</div>
+<section id="i-entered-a-photo-into-chat-gpt-and-that-photo-has-values-so-it-used-that-to-recreate-the-graphs" class="level5">
+<h5 class="anchored" data-anchor-id="i-entered-a-photo-into-chat-gpt-and-that-photo-has-values-so-it-used-that-to-recreate-the-graphs">I entered a photo into chat gpt and that photo has values so it used that to recreate the graphs</h5>
+<p>###How can I recreate this exact graph in R.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">category =</span> <span class="fu">c</span>(<span class="st">"Winners"</span>, <span class="st">"Runners-up"</span>, <span class="st">"Third place"</span>, <span class="st">"Fourth place"</span>, <span class="st">"Fifth place and below"</span>),</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">count =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">11</span>),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">percentage =</span> <span class="fu">c</span>(<span class="fl">17.4</span>, <span class="fl">17.4</span>, <span class="fl">13.0</span>, <span class="fl">4.3</span>, <span class="fl">47.8</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Define starting and ending x/y positions for connecting paths</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">x_start =</span> <span class="dv">1</span>, <span class="at">x_end =</span> <span class="fl">2.5</span>, </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">y_end =</span> <span class="fu">rev</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">nrow</span>(data) <span class="sc">*</span> <span class="dv">2</span>, <span class="at">by =</span> <span class="dv">2</span>)), </span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">y_start =</span> <span class="fu">rep</span>(<span class="dv">5</span>, <span class="fu">nrow</span>(data)))  <span class="co"># Single starting point</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Base plot with circles representing the first-impression roses</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_circle</span>(<span class="fu">aes</span>(<span class="at">x0 =</span> <span class="dv">1</span>, <span class="at">y0 =</span> <span class="dv">5</span>, <span class="at">r =</span> <span class="fl">1.5</span>), <span class="at">fill =</span> <span class="st">"pink"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span>, <span class="at">y =</span> <span class="dv">5</span>, <span class="at">label =</span> <span class="st">"23 first-impression roses"</span>), <span class="at">size =</span> <span class="dv">5</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>) <span class="sc">+</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Connecting paths</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="at">data =</span> data, <span class="fu">aes</span>(<span class="at">x =</span> x_start, <span class="at">xend =</span> x_end, <span class="at">y =</span> y_start, <span class="at">yend =</span> y_end),</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"pink"</span>, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Rectangles for ranking outcomes</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rect</span>(<span class="at">data =</span> data, <span class="fu">aes</span>(<span class="at">xmin =</span> x_end, <span class="at">xmax =</span> x_end <span class="sc">+</span> <span class="fl">0.5</span>, <span class="at">ymin =</span> y_end <span class="sc">-</span> <span class="fl">0.5</span>, <span class="at">ymax =</span> y_end <span class="sc">+</span> <span class="fl">0.5</span>), </span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>            <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"darkred"</span>, <span class="st">"pink"</span>, <span class="st">"lightpink"</span>, <span class="st">"lightgray"</span>, <span class="st">"gray"</span>), <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Text labels inside rectangles</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> data, <span class="fu">aes</span>(<span class="at">x =</span> x_end <span class="sc">+</span> <span class="fl">0.25</span>, <span class="at">y =</span> y_end, <span class="at">label =</span> count), <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Text labels for category names</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> data, <span class="fu">aes</span>(<span class="at">x =</span> x_end <span class="sc">+</span> <span class="dv">1</span>, <span class="at">y =</span> y_end, <span class="at">label =</span> <span class="fu">paste0</span>(category, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, percentage, <span class="st">"%"</span>)), </span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>) <span class="sc">+</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Theme adjustments</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Where first-impression roses lead"</span>) <span class="sc">+</span></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="presentation-exercise_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="i-wanted-the-modify-the-design-a-bit-to-match-the-orignal-more-so-i-asked-chat-gpt-this" class="level4">
+<h4 class="anchored" data-anchor-id="i-wanted-the-modify-the-design-a-bit-to-match-the-orignal-more-so-i-asked-chat-gpt-this">I wanted the modify the design a bit to match the orignal more so I asked chat gpt this</h4>
+<p>###The design is good but I want there to be 23 roses inside the “first impression roses” bubble and I want the lines connecting to the counts to match the color of the count box. ignore the dataset, modify the code previously given.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggforce)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggimage)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Define dataset for categories and colors</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">category =</span> <span class="fu">c</span>(<span class="st">"Winners"</span>, <span class="st">"Runners-up"</span>, <span class="st">"Third place"</span>, <span class="st">"Fourth place"</span>, <span class="st">"Fifth place and below"</span>),</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">count =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">11</span>),</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">percentage =</span> <span class="fu">c</span>(<span class="fl">17.4</span>, <span class="fl">17.4</span>, <span class="fl">13.0</span>, <span class="fl">4.3</span>, <span class="fl">47.8</span>),</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="fu">c</span>(<span class="st">"darkred"</span>, <span class="st">"pink"</span>, <span class="st">"lightpink"</span>, <span class="st">"lightgray"</span>, <span class="st">"gray"</span>)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Define starting and ending x/y positions for connecting paths</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">x_start =</span> <span class="dv">1</span>, <span class="at">x_end =</span> <span class="fl">2.5</span>, </span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">y_end =</span> <span class="fu">rev</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">nrow</span>(data) <span class="sc">*</span> <span class="dv">2</span>, <span class="at">by =</span> <span class="dv">2</span>)), </span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">y_start =</span> <span class="fu">rep</span>(<span class="dv">5</span>, <span class="fu">nrow</span>(data)))</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate 23 random (x, y) positions inside the circle</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)  <span class="co"># For reproducibility</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>n_roses <span class="ot">&lt;-</span> <span class="dv">23</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>angles <span class="ot">&lt;-</span> <span class="fu">runif</span>(n_roses, <span class="dv">0</span>, <span class="dv">2</span> <span class="sc">*</span> pi)  <span class="co"># Random angles</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>radii <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">runif</span>(n_roses, <span class="dv">0</span>, <span class="dv">1</span>)) <span class="sc">*</span> <span class="fl">1.1</span> <span class="co"># Random radii to keep roses inside</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert polar to Cartesian coordinates</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>roses <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="dv">1</span> <span class="sc">+</span> radii <span class="sc">*</span> <span class="fu">cos</span>(angles),</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="dv">5</span> <span class="sc">+</span> radii <span class="sc">*</span> <span class="fu">sin</span>(angles)</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>rose_image <span class="ot">&lt;-</span> <span class="st">"/Users/alexisgonzalez/Desktop/MADA/alexisgonzalez-MADA-portfolio/presentation-exercise/images/Rose.png"</span>   </span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the plot</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Bubble with scattered roses</span></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_circle</span>(<span class="fu">aes</span>(<span class="at">x0 =</span> <span class="dv">1</span>, <span class="at">y0 =</span> <span class="dv">5</span>, <span class="at">r =</span> <span class="fl">1.5</span>), <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_image</span>(<span class="at">data =</span> roses, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">image =</span> rose_image), <span class="at">size =</span> <span class="fl">0.06</span>) <span class="sc">+</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span>, <span class="at">y =</span> <span class="dv">7</span>, <span class="at">label =</span> <span class="st">"23 first-impression roses"</span>), <span class="at">size =</span> <span class="dv">5</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>) <span class="sc">+</span></span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Connecting paths with matching colors</span></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="at">data =</span> data, <span class="fu">aes</span>(<span class="at">x =</span> x_start, <span class="at">xend =</span> x_end, <span class="at">y =</span> y_start, <span class="at">yend =</span> y_end, <span class="at">color =</span> color),</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>               <span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>, <span class="at">lineend =</span> <span class="st">"round"</span>) <span class="sc">+</span></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Rectangles for ranking outcomes</span></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rect</span>(<span class="at">data =</span> data, <span class="fu">aes</span>(<span class="at">xmin =</span> x_end, <span class="at">xmax =</span> x_end <span class="sc">+</span> <span class="fl">0.5</span>, <span class="at">ymin =</span> y_end <span class="sc">-</span> <span class="fl">0.5</span>, <span class="at">ymax =</span> y_end <span class="sc">+</span> <span class="fl">0.5</span>, <span class="at">fill =</span> color),</span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Text labels inside rectangles</span></span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> data, <span class="fu">aes</span>(<span class="at">x =</span> x_end <span class="sc">+</span> <span class="fl">0.25</span>, <span class="at">y =</span> y_end, <span class="at">label =</span> count), <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Text labels for category names</span></span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> data, <span class="fu">aes</span>(<span class="at">x =</span> x_end <span class="sc">+</span> <span class="dv">1</span>, <span class="at">y =</span> y_end, <span class="at">label =</span> <span class="fu">paste0</span>(category, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, percentage, <span class="st">"%"</span>)), </span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>) <span class="sc">+</span></span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Theme adjustments</span></span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_identity</span>() <span class="sc">+</span></span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_identity</span>() <span class="sc">+</span></span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Where first-impression roses lead"</span>) <span class="sc">+</span></span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="presentation-exercise_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="now-i-will-create-a-data-table-that-shows-who-are-in-the-categories-shown-in-the-graph-above-what-season-theyre-in-and-how-many-roses-they-won-all-season." class="level4">
+<h4 class="anchored" data-anchor-id="now-i-will-create-a-data-table-that-shows-who-are-in-the-categories-shown-in-the-graph-above-what-season-theyre-in-and-how-many-roses-they-won-all-season.">Now I will create a data table that shows who are in the categories shown in the graph above, what season they’re in and how many roses they won all season.</h4>
+<p>#####First I want to filter out all contestants that did not recieve a first impression rose</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>first_impression_contestants <span class="ot">&lt;-</span> bach <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ELIMINATION<span class="fl">.1</span> <span class="sc">==</span> <span class="st">"R1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(first_impression_contestants)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     SHOW              SEASON           CONTESTANT        ELIMINATION.1     
+ Length:45          Length:45          Length:45          Length:45         
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+ ELIMINATION.2      ELIMINATION.3      ELIMINATION.4      ELIMINATION.5     
+ Length:45          Length:45          Length:45          Length:45         
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+ ELIMINATION.6      ELIMINATION.7      ELIMINATION.8      ELIMINATION.9     
+ Length:45          Length:45          Length:45          Length:45         
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+ ELIMINATION.10       DATES.1            DATES.2            DATES.3         
+ Length:45          Length:45          Length:45          Length:45         
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+   DATES.4            DATES.5            DATES.6            DATES.7         
+ Length:45          Length:45          Length:45          Length:45         
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+   DATES.8            DATES.9            DATES.10        
+ Length:45          Length:45          Length:45         
+ Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(first_impression_contestants)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   45 obs. of  23 variables:
+ $ SHOW          : chr  "Bachelorette" "Bachelorette" "Bachelorette" "Bachelorette" ...
+ $ SEASON        : chr  "13" "12" "11" "10" ...
+ $ CONTESTANT    : chr  "13_BRYAN_A" "12_JORDAN_R" "11_SHAWN_B" "10_NICK_V" ...
+ $ ELIMINATION.1 : chr  "R1" "R1" "R1" "R1" ...
+ $ ELIMINATION.2 : chr  "" "" "" "" ...
+ $ ELIMINATION.3 : chr  "" "" "R" "R" ...
+ $ ELIMINATION.4 : chr  "R" "R" "" "" ...
+ $ ELIMINATION.5 : chr  "R" "R" "R" "" ...
+ $ ELIMINATION.6 : chr  "" "" "" "R" ...
+ $ ELIMINATION.7 : chr  "R" "" "" "R" ...
+ $ ELIMINATION.8 : chr  "" "" "" "" ...
+ $ ELIMINATION.9 : chr  "" "" "W" "" ...
+ $ ELIMINATION.10: chr  "W" "W" "" "EU" ...
+ $ DATES.1       : chr  "" "" "" "" ...
+ $ DATES.2       : chr  "" "D6" "" "" ...
+ $ DATES.3       : chr  "D6" "D12" "D6" "D1" ...
+ $ DATES.4       : chr  "D13" "D11" "D8" "D6" ...
+ $ DATES.5       : chr  "D1" "D1" "D1" "D9" ...
+ $ DATES.6       : chr  "D7" "D5" "" "D1" ...
+ $ DATES.7       : chr  "D1" "D1" "D3" "D4" ...
+ $ DATES.8       : chr  "D1" "D1" "D1" "D1" ...
+ $ DATES.9       : chr  "D1" "D1" "D1" "D1" ...
+ $ DATES.10      : chr  "D1" "D1" "" "D1" ...</code></pre>
+</div>
+</div>
+<section id="i-noticed-that-the-dataset-was-showing-multiple-people-getting-the-first-impression-rose-on-a-single-season.-only-1-of-those-are-given-out-per-season-so-i-will-remove-the-entries-that-did-not-actaully-recieve-the-first-impression-rose.-i-can-figure-this-out-with-a-simple-google-search." class="level5">
+<h5 class="anchored" data-anchor-id="i-noticed-that-the-dataset-was-showing-multiple-people-getting-the-first-impression-rose-on-a-single-season.-only-1-of-those-are-given-out-per-season-so-i-will-remove-the-entries-that-did-not-actaully-recieve-the-first-impression-rose.-i-can-figure-this-out-with-a-simple-google-search.">I noticed that the dataset was showing multiple people getting the first impression rose on a single season. Only 1 of those are given out per season so I will remove the entries that did not actaully recieve the first impression rose. I can figure this out with a simple google search.</h5>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reset row names</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(first_impression_contestants) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>first_imp2 <span class="ot">&lt;-</span> first_impression_contestants[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">23</span>, <span class="dv">24</span>, <span class="dv">25</span>, <span class="dv">27</span>, <span class="dv">28</span>, <span class="dv">29</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">32</span>, <span class="dv">33</span>, <span class="dv">34</span>, <span class="dv">44</span>, <span class="dv">16</span>, <span class="dv">17</span>), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>first_imp2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           SHOW SEASON     CONTESTANT ELIMINATION.1 ELIMINATION.2 ELIMINATION.3
+1  Bachelorette     13     13_BRYAN_A            R1                            
+2  Bachelorette     12    12_JORDAN_R            R1                            
+3  Bachelorette     11     11_SHAWN_B            R1                           R
+4  Bachelorette     10      10_NICK_V            R1                           R
+8  Bachelorette     09       09_BEN_S            R1             R              
+11 Bachelorette     08      08_DOUG_C            R1                            
+12 Bachelorette     07      07_RYAN_P            R1                           R
+13 Bachelorette     06    06_ROBERT_M            R1                           R
+14 Bachelorette     05     05_DAVID_G            R1                            
+15 Bachelorette     04     04_JESSE_C            R1                            
+18 Bachelorette     03       03_KEITH            R1                           E
+19     Bachelor     21   21_VANESSA_G            R1                           R
+20     Bachelor     20    20_OLIVIA_C            R1             R              
+21     Bachelor     19     19_BRITT_N            R1                            
+22     Bachelor     18  18_SHARLEEN_J            R1                            
+26     Bachelor     17    17_TIERRA_L            R1                            
+35     Bachelor     16    16_LINDZI_C            R1                           R
+36     Bachelor     15    15_ASHLEY_S            R1                           R
+37     Bachelor     14    14_TENLEY_M            R1                            
+38     Bachelor     13     13_NIKKI_K            R1                            
+39     Bachelor     12    12_AMANDA_R            R1                            
+40     Bachelor     11     11_JENNI_C            R1                            
+41     Bachelor     10 10_STEPHANIE_T            R1             R              
+42     Bachelor     09      09_LISA_B            R1             R              
+43     Bachelor     07    07_Sarah W.            R1             R              
+45     Bachelor     05     05_TRISH_S            R1                            
+   ELIMINATION.4 ELIMINATION.5 ELIMINATION.6 ELIMINATION.7 ELIMINATION.8
+1              R             R                           R              
+2              R             R                                          
+3                            R                                          
+4                                          R             R              
+8                           ED                                          
+11             R                                        ED              
+12                                         R            ED              
+13                                                                      
+14             E                                                        
+15             R                                                       W
+18                                                                      
+19                                                                      
+20                           R            ED                            
+21                           R             R             E              
+22             R                           R            EQ              
+26             R             R                          EU              
+35                                         R                            
+36                          ED                                          
+37             R                                                       E
+38            ED                                                        
+39             R                                         E              
+40             R                                                       E
+41             E                                                        
+42                                         E                            
+43                                         E                            
+45                           E                                          
+   ELIMINATION.9 ELIMINATION.10 DATES.1 DATES.2 DATES.3 DATES.4 DATES.5 DATES.6
+1                             W                      D6     D13      D1      D7
+2                             W              D6     D12     D11      D1      D5
+3              W                                     D6      D8      D1        
+4                            EU                      D1      D6      D9      D1
+8                                           D14     D10     D10      D2        
+11                                                  D12      D1      D8      D6
+12                                                  D10     D10      D8      D6
+13                            W                      D1      D7      D6      D4
+14                                           D7             D10                
+15                                           D7     D10      D1      D4      D1
+18                                           D1      D6                        
+19                            W             D12      D1     D13     D10      D6
+20                                           D6     D12     D12      D9      D2
+21                                          D11     D12      D6      D1      D6
+22                                                  D10      D1      D9      D6
+26                                          D13     D12      D8      D2      D7
+35                            E                      D1      D8      D9      D6
+36                                                   D1      D9      D2        
+37                                                   D8      D6      D1      D1
+38                                           D8      D8      D2                
+39                                           D8     D10      D1      D4      D1
+40                                           D7      D6      D1      D4      D1
+41                                           D1      D5      D4                
+42                                           D1      D6      D4      D1      D1
+43                                   D9      D1      D6      D5      D1      D1
+45                                           D1      D2      D3      D1        
+   DATES.7 DATES.8 DATES.9 DATES.10
+1       D1      D1      D1       D1
+2       D1      D1      D1       D1
+3       D3      D1      D1         
+4       D4      D1      D1       D1
+8                                  
+11      D3                         
+12      D1                         
+13      D1      D1      D1       D1
+14                                 
+15      D1      D1                 
+18                                 
+19      D1      D1      D1       D1
+20                                 
+21      D3                         
+22      D1                         
+26                                 
+35      D1      D1      D1       D1
+36                                 
+37      D1      D1                 
+38                                 
+39      D1                         
+40      D1      D1                 
+41                                 
+42                                 
+43                                 
+45                                 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(first_imp2<span class="sc">$</span>CONTESTANT)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 26</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(first_imp2<span class="sc">$</span>SEASON)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 26</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(first_imp2<span class="sc">$</span>SHOW)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 26</code></pre>
+</div>
+</div>
+<p>####Now I will create the table, inserting a photo on the contestant</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the data frame with contestant details</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>contestants_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">contestant =</span> first_imp2<span class="sc">$</span>CONTESTANT,</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">season =</span> first_imp2<span class="sc">$</span>SEASON,</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">show =</span> first_imp2<span class="sc">$</span>SHOW,</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">category =</span> <span class="fu">c</span>(<span class="st">"Fifth place and Below"</span>,<span class="st">"Winners"</span>,<span class="st">"Fifth place and Below"</span>,<span class="st">"Fifth place and Below"</span>,<span class="st">"Winners"</span>, <span class="st">"Winners"</span>, <span class="st">"Runners-up"</span>, <span class="st">"Fifth place and Below"</span>,<span class="st">"Fourth place"</span>,<span class="st">"Fourth place"</span>,<span class="st">"Winners"</span>,<span class="st">"Fifth place and Below"</span>,<span class="st">"Winners"</span>,<span class="st">"Fifth place and Below"</span>,<span class="st">"Winners"</span>,<span class="st">"Fifth place and Below"</span>,<span class="st">"Fourth place"</span>,<span class="st">"Fourth place"</span>,<span class="st">"Fourth place"</span>,<span class="st">"Runners-up"</span>,<span class="st">"Third Place"</span>,<span class="st">"Fourth place"</span>,<span class="st">"Third Place"</span>,<span class="st">"Fifth place and Below"</span>,<span class="st">"Fifth place and Below"</span>,<span class="st">"Fifth place and Below"</span>),</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">roses_received =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>),</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">relationship_status =</span> <span class="fu">c</span>(<span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Married"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Married"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Married"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>, <span class="st">"Single"</span>),</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">image_url =</span> <span class="fu">c</span>(<span class="st">"himages.png"</span>,  <span class="co"># Example image URL for "Single"</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,  <span class="co"># Example image URL for "In a Relationship"</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,  <span class="co"># Example image URL for "Single"</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,  <span class="co"># Example image URL for "In a Relationship"</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>,</span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>                <span class="st">"himages.png"</span>) </span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>contestants_data<span class="sc">$</span>image_url <span class="ot">&lt;-</span> <span class="st">"himages.png"</span>  </span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace relationship_status with image HTML</span></span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>contestants_data<span class="sc">$</span>relationship_status <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">'&lt;img src="'</span>,contestants_data<span class="sc">$</span>image_url, <span class="st">'" width="50" height="50"&gt;'</span>)</span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'kableExtra'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:dplyr':
+
+    group_rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the table using kableExtra</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the table using kableExtra</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>contestants_data <span class="sc">%&gt;%</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="st">"html"</span>, <span class="at">escape =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span>  <span class="co"># Create HTML table</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>), <span class="at">full_width =</span> <span class="cn">FALSE</span>, <span class="at">position =</span> <span class="st">"center"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Stripe and hover effects</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_spec</span>(<span class="dv">1</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">background =</span> <span class="st">"darkpink"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Style 'contestant' column</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_spec</span>(<span class="dv">2</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span>  <span class="co"># Bold 'season' column</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_spec</span>(<span class="dv">3</span>, <span class="at">background =</span> <span class="st">"lightpink"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Style 'show' column</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_spec</span>(<span class="dv">4</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Style 'category' column</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_spec</span>(<span class="dv">5</span>, <span class="at">background =</span> <span class="st">"lightpink"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Style 'roses_received' column</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_spec</span>(<span class="dv">6</span>, <span class="at">background =</span> <span class="st">"lightpink"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Style 'relationship_status' column</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_header_above</span>(<span class="fu">c</span>(<span class="st">" "</span>, <span class="st">"Contestants Info"</span> <span class="ot">=</span> <span class="dv">6</span>))  <span class="co"># Add header and table title</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-striped table-hover caption-top table-sm small" data-quarto-postprocess="true">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; empty-cells: hide; border-bottom: hidden;"></th>
+<th colspan="6" data-quarto-table-cell-role="th" style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px;"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Contestants Info
+</div></th>
+</tr>
+<tr class="even">
+<th style="text-align: left;" data-quarto-table-cell-role="th">contestant</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">season</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">show</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">category</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">roses_received</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">relationship_status</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">image_url</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">13_BRYAN_A</td>
+<td style="text-align: left; font-weight: bold;">13</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelorette</td>
+<td style="text-align: left; color: blue !important;">Fifth place and Below</td>
+<td style="text-align: right; background-color: lightpink !important;">4</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">12_JORDAN_R</td>
+<td style="text-align: left; font-weight: bold;">12</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelorette</td>
+<td style="text-align: left; color: blue !important;">Winners</td>
+<td style="text-align: right; background-color: lightpink !important;">3</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">11_SHAWN_B</td>
+<td style="text-align: left; font-weight: bold;">11</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelorette</td>
+<td style="text-align: left; color: blue !important;">Fifth place and Below</td>
+<td style="text-align: right; background-color: lightpink !important;">3</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">10_NICK_V</td>
+<td style="text-align: left; font-weight: bold;">10</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelorette</td>
+<td style="text-align: left; color: blue !important;">Fifth place and Below</td>
+<td style="text-align: right; background-color: lightpink !important;">3</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">09_BEN_S</td>
+<td style="text-align: left; font-weight: bold;">09</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelorette</td>
+<td style="text-align: left; color: blue !important;">Winners</td>
+<td style="text-align: right; background-color: lightpink !important;">2</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">08_DOUG_C</td>
+<td style="text-align: left; font-weight: bold;">08</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelorette</td>
+<td style="text-align: left; color: blue !important;">Winners</td>
+<td style="text-align: right; background-color: lightpink !important;">2</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">07_RYAN_P</td>
+<td style="text-align: left; font-weight: bold;">07</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelorette</td>
+<td style="text-align: left; color: blue !important;">Runners-up</td>
+<td style="text-align: right; background-color: lightpink !important;">3</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">06_ROBERT_M</td>
+<td style="text-align: left; font-weight: bold;">06</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelorette</td>
+<td style="text-align: left; color: blue !important;">Fifth place and Below</td>
+<td style="text-align: right; background-color: lightpink !important;">2</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">05_DAVID_G</td>
+<td style="text-align: left; font-weight: bold;">05</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelorette</td>
+<td style="text-align: left; color: blue !important;">Fourth place</td>
+<td style="text-align: right; background-color: lightpink !important;">1</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">04_JESSE_C</td>
+<td style="text-align: left; font-weight: bold;">04</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelorette</td>
+<td style="text-align: left; color: blue !important;">Fourth place</td>
+<td style="text-align: right; background-color: lightpink !important;">2</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">03_KEITH</td>
+<td style="text-align: left; font-weight: bold;">03</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelorette</td>
+<td style="text-align: left; color: blue !important;">Winners</td>
+<td style="text-align: right; background-color: lightpink !important;">2</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">21_VANESSA_G</td>
+<td style="text-align: left; font-weight: bold;">21</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
+<td style="text-align: left; color: blue !important;">Fifth place and Below</td>
+<td style="text-align: right; background-color: lightpink !important;">1</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">20_OLIVIA_C</td>
+<td style="text-align: left; font-weight: bold;">20</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
+<td style="text-align: left; color: blue !important;">Winners</td>
+<td style="text-align: right; background-color: lightpink !important;">2</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">19_BRITT_N</td>
+<td style="text-align: left; font-weight: bold;">19</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
+<td style="text-align: left; color: blue !important;">Fifth place and Below</td>
+<td style="text-align: right; background-color: lightpink !important;">3</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">18_SHARLEEN_J</td>
+<td style="text-align: left; font-weight: bold;">18</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
+<td style="text-align: left; color: blue !important;">Winners</td>
+<td style="text-align: right; background-color: lightpink !important;">2</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">17_TIERRA_L</td>
+<td style="text-align: left; font-weight: bold;">17</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
+<td style="text-align: left; color: blue !important;">Fifth place and Below</td>
+<td style="text-align: right; background-color: lightpink !important;">3</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">16_LINDZI_C</td>
+<td style="text-align: left; font-weight: bold;">16</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
+<td style="text-align: left; color: blue !important;">Fourth place</td>
+<td style="text-align: right; background-color: lightpink !important;">2</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">15_ASHLEY_S</td>
+<td style="text-align: left; font-weight: bold;">15</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
+<td style="text-align: left; color: blue !important;">Fourth place</td>
+<td style="text-align: right; background-color: lightpink !important;">1</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">14_TENLEY_M</td>
+<td style="text-align: left; font-weight: bold;">14</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
+<td style="text-align: left; color: blue !important;">Fourth place</td>
+<td style="text-align: right; background-color: lightpink !important;">2</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">13_NIKKI_K</td>
+<td style="text-align: left; font-weight: bold;">13</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
+<td style="text-align: left; color: blue !important;">Runners-up</td>
+<td style="text-align: right; background-color: lightpink !important;">3</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">12_AMANDA_R</td>
+<td style="text-align: left; font-weight: bold;">12</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
+<td style="text-align: left; color: blue !important;">Third Place</td>
+<td style="text-align: right; background-color: lightpink !important;">3</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">11_JENNI_C</td>
+<td style="text-align: left; font-weight: bold;">11</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
+<td style="text-align: left; color: blue !important;">Fourth place</td>
+<td style="text-align: right; background-color: lightpink !important;">2</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">10_STEPHANIE_T</td>
+<td style="text-align: left; font-weight: bold;">10</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
+<td style="text-align: left; color: blue !important;">Third Place</td>
+<td style="text-align: right; background-color: lightpink !important;">2</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">09_LISA_B</td>
+<td style="text-align: left; font-weight: bold;">09</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
+<td style="text-align: left; color: blue !important;">Fifth place and Below</td>
+<td style="text-align: right; background-color: lightpink !important;">2</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">07_Sarah W.</td>
+<td style="text-align: left; font-weight: bold;">07</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
+<td style="text-align: left; color: blue !important;">Fifth place and Below</td>
+<td style="text-align: right; background-color: lightpink !important;">2</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: darkpink !important;">05_TRISH_S</td>
+<td style="text-align: left; font-weight: bold;">05</td>
+<td style="text-align: left; background-color: lightpink !important;">Bachelor</td>
+<td style="text-align: left; color: blue !important;">Fifth place and Below</td>
+<td style="text-align: right; background-color: lightpink !important;">1</td>
+<td style="text-align: left; background-color: lightpink !important;"><img src="himages.png" width="50" height="50"></td>
+<td style="text-align: left;">himages.png</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

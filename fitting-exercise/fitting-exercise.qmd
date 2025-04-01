@@ -590,6 +590,55 @@ plot_est_gz
 
 According to the output, the fitting results from bootstrapping are generally consistent with only fitting model 2 on the train set. Almost all the CIs (red) can cover the point predictions (black). From a big picture, the data points are distributed around the diagonal, which means the predicted values are close to the observed values. To this point, we can conclude the good performance of model 2.
 
+#Making predictions for the test data using fitted model 2
+```{r}
+predictall_2 <-predict(lm_modall, new_data = test_data) 
+```
+
+
+```{r}
+predictalls_2 <- predictall_2 %>%
+bind_cols(test_data$Y) %>%
+  mutate(Model = "Test")
+colnames(predictalls_2) <- c("Predicted", "Observed","Model")
+```
+
+
+```{r}
+predictalls <- predictall %>%
+  bind_cols(train_data$Y) %>%
+  mutate(Model = "Model 2")
+
+colnames(predictalls) <- c("Predicted", "Observed", "Model")
+
+```
+#Combining into 1 data fram
+```{r}
+all_models <- bind_rows(predictalls, predictalls_2)
+```
+#Plotting data
+```{r}
+ggplot(all_models, aes(x=Observed, y=Predicted, color = Model, shape = Model)) +
+  geom_point(alpha = 0.7, size = 3) +
+  geom_abline(slope = 1, intercept = 0, linetype = "solid", color = "black") +
+  labs(title = "Observed vs Predicted for Training and Test Data",
+       x= "Observed",
+       y= "Predicted") +
+  theme_minimal()+
+  scale_color_manual(values = c("red","blue"))+
+  scale_shape_manual(values = c(16,17)) +
+  coord_cartesian(xlim = c(0,5000), ylim = c(0,5000)) +
+theme(legend.title=element_blank())
+```
+#Overall model assessment
+
+Seeing as the null model was not fit to the line at all, both model 1 and model 2 both perform better than the null. 
+
+#saving the final cleaned data (drug_data_final)
+
+```{r}
+saveRDS(drug_data_final, "drug_data.rds")
+```
 
 
 
