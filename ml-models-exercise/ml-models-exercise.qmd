@@ -79,9 +79,9 @@ set.seed(1234)
 #recipe for fitting y to all 
 ```{r}
 recipe1 <- recipe(Y ~ ., data = drug_bmi) %>%
+  step_zv(all_predictors()) %>%
   step_normalize(all_numeric_predictors()) %>%
   step_dummy(all_nominal_predictors()) %>%
-  step_zv(all_predictors()) %>%
   step_impute_median(all_numeric_predictors())
 
 ```
@@ -221,40 +221,185 @@ ggplot(all_predictions, aes(x = Y, y = .pred, color = model, shape = model)) +
 #the linear points and lasso points are nearly identical while random forest plots lie closer to the 45 degree line. 
 
 #Model tuning
-```{r}
-```
-
+#LASSO
 ```{r}
 set.seed(1234)
 ```
+
 
 #tuning the LASSO model with a tune grid
 ```{r}
 lasso_model2 <- linear_reg(penalty = tune() , mixture = 1) %>%
   set_engine("glmnet")
 ```
-
+#Creating a workflow
 ```{r}
 lasso_wf <-workflow() %>%
   add_model(lasso_model2) %>%
   add_recipe(recipe1)
 ```
-
+#Creating a grid
 ```{r}
 lasso_grid <-tibble(penalty = 10^seq(-5, 2, length.out = 50))
 lasso_grid
 ```
-#evaluate
+#resampling
 ```{r}
 apparent_lasso <- apparent(drug_bmi)
 apparent_lasso
 ```
 #Tune the model
 ```{r}
+lasso_tuned <- tune_grid(
+  lasso_wf ,
+  resamples = apparent_lasso,
+  grid = lasso_grid
+)
+```
+#metrics
+```{r}
+lasso_tuned %>%
+  collect_metrics()
+```
+#Not recieving any metrics. This is due to apparent sampling. I retried with bootstrap resampling and recieved metrics.
 
+
+#RANDOM FOREST
+#Set tuning parameters
+```{r}
+tune_spec <- rand_forest(
+  mtry = tune(),
+  trees = 300,
+  min_n = tune()
+)%>%
+  set_mode("regression") %>%
+  set_engine("ranger")
+```
+#Create a workflow
+```{r}
+tune_wf <- workflow()%>%
+  add_recipe(recipe1) %>%
+  add_model(tune_spec)
+```
+
+#Setting up grid
+```{r}
+rt_grid <- grid_regular(
+  mtry(range =c(1,7)),
+  min_n(range = c(1,21)),
+  levels = c(7,7)
+)
+
+```
+#set resamples
+```{r}
+apparent_rt <-apparent(drug_bmi)
+```
+#Tune the model
+```{r} 
+tune_rt <- tune_grid(
+  tune_wf,
+  resamples = apparent_rt,
+  grid = rt_grid
+)
+```
+#View results
+```{r}
+tune_rt %>%
+  collect_metrics()
+```
+#TUNING WITH CV
+
+#LASSO
+```{r}
+set.seed(123)
 ```
 
 ```{r}
+lasso_modelcv <- linear_reg(penalty = tune() , mixture = 1) %>%
+  set_engine("glmnet")
+```
+#Creating a workflow
+```{r}
+lasso_cv <-workflow() %>%
+  add_model(lasso_modelcv) %>%
+  add_recipe(recipe1)
+```
+#Creating a grid
+```{r}
+lasso_gridcv <-tibble(penalty = 10^seq(-5, 2, length.out = 50))
+lasso_gridcv
+```
+#resampling with cv
+```{r}
+cv_data <-vfold_cv(drug_bmi, v=5, repeats =5)
+```
+#Tune the model
+```{r}
+lasso_tunedcv <- tune_grid(
+  lasso_cv ,
+  resamples = cv_data,
+  grid = lasso_gridcv
+)
+```
+#metrics
+```{r}
+lasso_tunedcv %>%
+  collect_metrics()
+```
+
+```{r}
+autoplot(lasso_tunedcv)
+```
+
+
+
+#Random forest using cv resampling
+```{r}
+tune_speccv <- rand_forest(
+  mtry = tune(),
+  trees = 300,
+  min_n = tune()
+)%>%
+  set_mode("regression") %>%
+  set_engine("ranger")
+```
+#Create a workflow
+```{r}
+tune_rtcv <- workflow()%>%
+  add_recipe(recipe1) %>%
+  add_model(tune_speccv)
+```
+
+#Setting up grid
+```{r}
+rt_gridcv<- grid_regular(
+  mtry(range =c(1,7)),
+  min_n(range = c(1,21)),
+  levels = c(7,7)
+)
 
 ```
+#resampling with cv
+```{r}
+cv_data <-vfold_cv(drug_bmi, v=5, repeats =5)
+```
+#Tune the model
+```{r} 
+tune_cv <- tune_grid(
+  tune_rtcv,
+  resamples = cv_data,
+  grid = rt_gridcv
+)
+```
+#View results
+```{r}
+autoplot(tune_cv)
+```
+```{r}
+tune_cv %>%
+  collect_metrics()
+```
+
+
 
