@@ -2,44 +2,73 @@
 title: "Moduel 4 Exercise"
 ---
 
-### For this exercise I will be analyzing an Image. #The first step is to load in the necessary packages for exploring images. This will be magick and imager. Both packages can be used to manipulate the images properties such as its size, colors, effects, and even animating. Imager won't run on MacOS unless you install XQuartz first [here](https://www.xquartz.org/)
+
+#For this excercise I will be doing image data exploration.For this, I will use images from the MNIST digits dataset. This is a large database of handwritten digits, typically used to train image processing systems.
 
 ```{r}
-library(tidyverse)
+#Load packages
+library(keras)
 library(magick)
+library(torch)
 library(imager)
+library(ggplot2)
+library(tensorflow)
 ```
 
-#### Now I will load in my images, my images are characters from a show so I will use their names
+#Load in the mnist dataset. this uses the keras package
+```{r}
+install_tensorflow()
+```
+
 
 ```{r}
-jjk <- list(
-  itadori = image_read("/Users/alexisgonzalez/Downloads/itadori.jpg"),
-  nobara = image_read("/Users/alexisgonzalez/Downloads/nobara.jpg"),
-  megumi = image_read("/Users/alexisgonzalez/Downloads/megumi.jpg"),
-  nanami = image_read("/Users/alexisgonzalez/Downloads/nanami.jpg"),
-  gojo = image_read("/Users/alexisgonzalez/Downloads/gojo.jpg"),
-  sukuna = image_read("/Users/alexisgonzalez/Downloads/sukuna.jpg")
-  )
-
+mnist <-dataset_mnist()
 ```
-
-#### The sizes of the images are different so I'm going to make them all the same 640x640
 
 ```{r}
-resized_images <- lapply(jjk, function(img) {image_resize(img, "640x640" )})
+images <- mnist$train$x
+lables <- mnist$train$y
 ```
-
-#### Now I can combine all of these images and turn them into a gif
 
 ```{r}
-gif <- image_animate(image_join(resized_images), fps = 5)
+dim(images)
 ```
-
-#### Now I view my gif, it should play in the window on the bottom left
-
+#Plot the first few images
 ```{r}
-print(gif)
+par(mfrow=c(2,5), mar=c(1,1,1,1))
+for(i in 1:10) {
+  image(1:28,1:28,images[i, ,28:1], col=gray.colors(256),main = lables[i])
+}
+```
+#Now we can do some data exploration
+```{r}
+#Lets see the distributionof digits in this data set. how many of each digit exist.
+
+table(mnist$train$y)
+barplot(table(mnist$train$y),
+        col = "firebrick",
+        main = "Distribution of Digits",
+        xlab = "digit",ylab = "frequency")
+```
+#So there are thousands of images for each digit. With thw following code I can see what the "average" digit looks like
+```{r}
+#compute average digit
+avg_images <- lapply(0:9, function(digit) {
+  inds <- which(mnist$train$y == digit)
+  mean_image <- apply(mnist$train$x[inds, ,], c(2,3), mean)
+  return(mean_image)
+})
+
+# Normalize function
+normalize <- function(x) (x - min(x)) / (max(x) - min(x))
+
+# Plot average images for digits 0 to 9
+par(mfrow = c(2, 5), mar = c(1, 1, 1, 1))
+for (i in 0:9) {
+  img <- normalize(avg_images[[i + 1]])
+  image(1:28, 1:28, img[, 28:1], col = gray.colors(256), main = i)
+}
+
 ```
 
-# 
+

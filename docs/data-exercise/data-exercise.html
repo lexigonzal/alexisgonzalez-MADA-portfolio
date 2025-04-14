@@ -206,129 +206,155 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="for-this-exercise-i-will-be-analyzing-an-image.-the-first-step-is-to-load-in-the-necessary-packages-for-exploring-images.-this-will-be-magick-and-imager.-both-packages-can-be-used-to-manipulate-the-images-properties-such-as-its-size-colors-effects-and-even-animating.-imager-wont-run-on-macos-unless-you-install-xquartz-first-here" class="level3">
-<h3 class="anchored" data-anchor-id="for-this-exercise-i-will-be-analyzing-an-image.-the-first-step-is-to-load-in-the-necessary-packages-for-exploring-images.-this-will-be-magick-and-imager.-both-packages-can-be-used-to-manipulate-the-images-properties-such-as-its-size-colors-effects-and-even-animating.-imager-wont-run-on-macos-unless-you-install-xquartz-first-here">For this exercise I will be analyzing an Image. #The first step is to load in the necessary packages for exploring images. This will be magick and imager. Both packages can be used to manipulate the images properties such as its size, colors, effects, and even animating. Imager won’t run on MacOS unless you install XQuartz first <a href="https://www.xquartz.org/">here</a></h3>
+<p>#For this excercise I will be doing image data exploration.For this, I will use images from the MNIST digits dataset. This is a large database of handwritten digits, typically used to train image processing systems.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-✔ purrr     1.0.2     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magick)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Load packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(keras)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magick)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Linking to ImageMagick 6.9.12.93
 Enabled features: cairo, fontconfig, freetype, heic, lcms, pango, raw, rsvg, webp
 Disabled features: fftw, ghostscript, x11</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(imager)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(torch)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(imager)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: magrittr
+<pre><code>Loading required package: magrittr</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'imager'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:magrittr':
 
-Attaching package: 'magrittr'
+    add</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
 
-The following object is masked from 'package:purrr':
+    convolve, spectrum</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:graphics':
 
-    set_names
-
-The following object is masked from 'package:tidyr':
-
-    extract
-
-
-Attaching package: 'imager'
-
-The following object is masked from 'package:magrittr':
-
-    add
-
-The following object is masked from 'package:stringr':
-
-    boundary
-
-The following object is masked from 'package:dplyr':
-
-    where
-
-The following object is masked from 'package:tidyr':
-
-    fill
-
-The following objects are masked from 'package:stats':
-
-    convolve, spectrum
-
-The following object is masked from 'package:graphics':
-
-    frame
-
-The following object is masked from 'package:base':
+    frame</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:base':
 
     save.image</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tensorflow)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="now-i-will-load-in-my-images-my-images-are-characters-from-a-show-so-i-will-use-their-names" class="level4">
-<h4 class="anchored" data-anchor-id="now-i-will-load-in-my-images-my-images-are-characters-from-a-show-so-i-will-use-their-names">Now I will load in my images, my images are characters from a show so I will use their names</h4>
+<p>#Load in the mnist dataset. this uses the keras package</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>jjk <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">itadori =</span> <span class="fu">image_read</span>(<span class="st">"/Users/alexisgonzalez/Downloads/itadori.jpg"</span>),</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">nobara =</span> <span class="fu">image_read</span>(<span class="st">"/Users/alexisgonzalez/Downloads/nobara.jpg"</span>),</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">megumi =</span> <span class="fu">image_read</span>(<span class="st">"/Users/alexisgonzalez/Downloads/megumi.jpg"</span>),</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">nanami =</span> <span class="fu">image_read</span>(<span class="st">"/Users/alexisgonzalez/Downloads/nanami.jpg"</span>),</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">gojo =</span> <span class="fu">image_read</span>(<span class="st">"/Users/alexisgonzalez/Downloads/gojo.jpg"</span>),</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sukuna =</span> <span class="fu">image_read</span>(<span class="st">"/Users/alexisgonzalez/Downloads/sukuna.jpg"</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="the-sizes-of-the-images-are-different-so-im-going-to-make-them-all-the-same-640x640" class="level4">
-<h4 class="anchored" data-anchor-id="the-sizes-of-the-images-are-different-so-im-going-to-make-them-all-the-same-640x640">The sizes of the images are different so I’m going to make them all the same 640x640</h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>resized_images <span class="ot">&lt;-</span> <span class="fu">lapply</span>(jjk, <span class="cf">function</span>(img) {<span class="fu">image_resize</span>(img, <span class="st">"640x640"</span> )})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="now-i-can-combine-all-of-these-images-and-turn-them-into-a-gif" class="level4">
-<h4 class="anchored" data-anchor-id="now-i-can-combine-all-of-these-images-and-turn-them-into-a-gif">Now I can combine all of these images and turn them into a gif</h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>gif <span class="ot">&lt;-</span> <span class="fu">image_animate</span>(<span class="fu">image_join</span>(resized_images), <span class="at">fps =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="now-i-view-my-gif-it-should-play-in-the-window-on-the-bottom-left" class="level4">
-<h4 class="anchored" data-anchor-id="now-i-view-my-gif-it-should-play-in-the-window-on-the-bottom-left">Now I view my gif, it should play in the window on the bottom left</h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(gif)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install_tensorflow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 7
-  format width height colorspace matte filesize density
-  &lt;chr&gt;  &lt;int&gt;  &lt;int&gt; &lt;chr&gt;      &lt;lgl&gt;    &lt;int&gt; &lt;chr&gt;  
-1 gif      639    640 sRGB       FALSE        0 72x72  
-2 gif      639    640 sRGB       TRUE         0 72x72  
-3 gif      639    640 sRGB       TRUE         0 72x72  
-4 gif      639    640 sRGB       TRUE         0 72x72  
-5 gif      639    640 sRGB       TRUE         0 72x72  
-6 gif      639    640 sRGB       TRUE         0 72x72  </code></pre>
+<pre><code>Virtual environment 'r-tensorflow' removed.
+Using Python: /usr/bin/python3
+Creating virtual environment 'r-tensorflow' ... </code></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>+ /usr/bin/python3 -m venv /Users/alexisgonzalez/.virtualenvs/r-tensorflow</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Done!
+Installing packages: pip, wheel, setuptools</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>+ /Users/alexisgonzalez/.virtualenvs/r-tensorflow/bin/python -m pip install --upgrade pip wheel setuptools</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Virtual environment 'r-tensorflow' successfully created.
+Using virtual environment 'r-tensorflow' ...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>+ /Users/alexisgonzalez/.virtualenvs/r-tensorflow/bin/python -m pip install --upgrade --no-user 'tensorflow==2.16.*'</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Installation complete.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>mnist <span class="ot">&lt;-</span><span class="fu">dataset_mnist</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>images <span class="ot">&lt;-</span> mnist<span class="sc">$</span>train<span class="sc">$</span>x</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>lables <span class="ot">&lt;-</span> mnist<span class="sc">$</span>train<span class="sc">$</span>y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(images)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 60000    28    28</code></pre>
+</div>
+</div>
+<p>#Plot the first few images</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">28</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">28</span>,images[i, ,<span class="dv">28</span><span class="sc">:</span><span class="dv">1</span>], <span class="at">col=</span><span class="fu">gray.colors</span>(<span class="dv">256</span>),<span class="at">main =</span> lables[i])</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="data-exercise_files/figure-html/unnamed-chunk-5-1.gif" class="img-fluid figure-img"></p>
+<p><img src="data-exercise_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-</section>
-</section>
-<section id="section" class="level1">
-<h1></h1>
+<p>#Now we can do some data exploration</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Lets see the distributionof digits in this data set. how many of each digit exist.</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(mnist<span class="sc">$</span>train<span class="sc">$</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   0    1    2    3    4    5    6    7    8    9 
+5923 6742 5958 6131 5842 5421 5918 6265 5851 5949 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">table</span>(mnist<span class="sc">$</span>train<span class="sc">$</span>y),</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">"firebrick"</span>,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Distribution of Digits"</span>,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"digit"</span>,<span class="at">ylab =</span> <span class="st">"frequency"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="data-exercise_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>#So there are thousands of images for each digit. With thw following code I can see what the “average” digit looks like</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#compute average digit</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>avg_images <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>, <span class="cf">function</span>(digit) {</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  inds <span class="ot">&lt;-</span> <span class="fu">which</span>(mnist<span class="sc">$</span>train<span class="sc">$</span>y <span class="sc">==</span> digit)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  mean_image <span class="ot">&lt;-</span> <span class="fu">apply</span>(mnist<span class="sc">$</span>train<span class="sc">$</span>x[inds, ,], <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>), mean)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(mean_image)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Normalize function</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>normalize <span class="ot">&lt;-</span> <span class="cf">function</span>(x) (x <span class="sc">-</span> <span class="fu">min</span>(x)) <span class="sc">/</span> (<span class="fu">max</span>(x) <span class="sc">-</span> <span class="fu">min</span>(x))</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot average images for digits 0 to 9</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">5</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>) {</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>  img <span class="ot">&lt;-</span> <span class="fu">normalize</span>(avg_images[[i <span class="sc">+</span> <span class="dv">1</span>]])</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">28</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">28</span>, img[, <span class="dv">28</span><span class="sc">:</span><span class="dv">1</span>], <span class="at">col =</span> <span class="fu">gray.colors</span>(<span class="dv">256</span>), <span class="at">main =</span> i)</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="data-exercise_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
