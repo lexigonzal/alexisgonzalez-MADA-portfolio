@@ -1,0 +1,320 @@
+---
+title: "Moduel 11 Exercise"
+---
+#Load in pacakges
+```{r}
+library(tidyverse)
+library(here)
+library(ggplot2)
+library(tidymodels)
+library(ranger)
+```
+
+#Load in data
+```{r}
+care_state <- read.csv("/Users/alexisgonzalez/Desktop/MADA/alexisgonzalez-MADA-portfolio/tidytuesday-exercise/data/care_state.csv")
+```
+
+#Since data is already cleaned I will do some EDA!
+
+###I like to start witha summary table to see what my data set even is
+```{r}
+summary(care_state)
+str(care_state)
+```
+#Making some frequency tables
+```{r}
+table(care_state$condition)
+prop.table(table(care_state$condition))
+```
+#Distribution of measures
+```{r}
+care_state %>%
+count(measure_name, sort = TRUE) %>%
+  head(10)
+```
+######I already decided that I want to look at colonoscopy care so my questions are a majority of americans recieving their recommended follow-up screenings? Does the percentage vary across states, because I am curious if the south sees lower rates of colonoscopy follow up we can see if region in the united states influence getting a follow up screening, and since there are no other variables relating to colonoscopy we will see if emergency room wait time has an effect on colonoscopy care!
+
+#EDA on variables of interest
+
+```{r}
+#Creating a new variable for geographic region we will do 4 regions
+care_state <- care_state %>%
+  mutate(
+    Region = case_when(
+      state %in% c("CA","NV","OR","WA","ID","UT","CO","WY","MT","AK","HI","AZ","NM") ~ "West",
+      state %in% c("TX","OK","AR","LA","MS","AL","GA","TN","KY","FL","SC","NC","VA","WV","PR") ~ "South",
+      state %in% c("ND","SD","NE","KS","MN","IA","MO","WI","IL","IN","MI","OH") ~ "Midwest",
+      state %in% c("MD","DC","DE","PA","NY","NJ","VT","CT","MA","NH","ME","RI") ~ "Northeast"
+    ),
+    Region = factor(Region, levels = c("West", "South", "Midwest", "Northeast"))
+  )
+
+```
+
+#####We will be looking at OP_29 (colonoscopy) and OP_18b
+```{r}
+#distribution of wait times
+er_wait <- care_state %>%
+  filter(measure_id == "OP_18b", !is.na(score))
+
+ggplot(er_wait, aes(x = score)) +
+  geom_histogram(binwidth = 10, fill = "olivedrab", color = "white") +
+  theme_minimal() +
+  labs(
+    title = "Distribution of ER Wait Times",
+    x = "Minutes in ER Waiting",
+    y = "Count"
+  )
+
+```
+#####Now lets see what states experience the longest wait times (top 10)
+```{r}
+ggplot(er_wait, aes( x = state , y = score)) +
+  geom_bar(stat = "identity", fill = "lightblue") +
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle = 45, hjust =1))+
+  labs(
+    title = "Average ER Wait Time by State",
+    x = "state",
+    y = "Minutes in ER"
+  )
+
+```
+#####Filtering to just see the top 10
+```{r}
+top_10_wait <- er_wait %>%
+  slice_head(n=10)
+ggplot(top_10_wait, aes( x = state , y = score)) +
+  geom_bar(stat = "identity", fill = "seagreen") +
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle = 45, hjust =1))+
+  labs(
+    title = "Average ER Wait Time by State",
+    x = "state",
+    y = "Minutes in ER"
+  )
+```
+#####using new variable Region
+```{r}
+ggplot(er_wait, aes(x= Region, y = score)) +
+  geom_bar(stat = "identity", fill = "darkblue")+
+  theme_minimal()+
+  labs(
+    title = "Average ER wait time by Region",
+    x = "Region",
+    y = "Minutes in ER"
+  )
+```
+
+
+######Now lets look at the same things with colonoscopy care
+
+```{r}
+coloncare <- care_state %>%
+  filter(measure_id == "OP_29", !is.na(score))
+
+ggplot(coloncare, aes( x = state , y = score)) +
+  geom_bar(stat = "identity", fill = "mediumorchid") +
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle = 45, hjust =1))+
+  labs(
+    title = "Percent of people that receive follow-up care in each state",
+    x = "state",
+    y = "Percent care"
+  )
+
+```
+#Now lets see the bottom 10
+```{r}
+bottom_percent <- coloncare %>%
+  arrange(score) %>%
+  slice_head(n=10)
+
+ggplot(bottom_percent, aes( x = reorder(state, score) , y = score)) +
+  geom_bar(stat = "identity", fill = "maroon") +
+  geom_text(aes(label = round(score,1)), hjust = 1, size = 5.5)+
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle = 45, hjust =1))+
+  labs(
+    title = "Bottom 10 states of people that receive follow-up care",
+    x = "state",
+    y = "Percent follow-up"
+  ) +
+  ylim(0, max(bottom_percent$score)* 1.1)
+```
+```{r}
+region_colon <- care_state %>%
+filter(measure_id == "OP_29", !is.na(score)) %>%
+  group_by(Region) %>%
+  summarise(avg_score = mean(score, na.rm = TRUE)) %>%
+  arrange(desc(avg_score))
+ggplot(region_colon, aes(x = reorder( Region, avg_score), y = avg_score)) +
+  geom_bar(stat = "identity", fill = "orange") +
+  theme_minimal() +
+  labs(
+    title = "Percent follow-up by Region",
+    x = "Region",
+    y = "Percent"
+  )
+```
+######Now we will run some logisitic regression analysis on percent of people that get colonoscopy care 
+
+```{r}
+set.seed(1234)
+data_split <- initial_split(coloncare, prop = 0.8)
+train_data <- training(data_split)
+test_data <- testing(data_split)
+
+folds <- vfold_cv(train_data, v =5)
+
+#Recipe
+recipe <- recipe(score ~ Region, data = train_data) %>%
+  step_dummy(all_nominal_predictors())
+
+#Specifying the model
+colon_model <- linear_reg() %>%
+  set_engine("lm")
+#Create workflow
+workflow <- workflow() %>%
+  add_model(colon_model) %>%
+  add_recipe(recipe)
+#cross validation
+cv_colon <- fit_resamples(
+  workflow,
+  resamples = folds,
+  metrics = metric_set(rmse, rsq, mae),
+  control = control_resamples(save_pred = TRUE)
+)
+ collect_metrics(cv_colon)
+ cv_predict <- collect_predictions(cv_colon)
+```
+
+
+```{r}
+#Plot predictions vs observed
+ ggplot(cv_predict, aes(x = .pred, y = score)) +
+   geom_point(alpha = 0.7) + 
+   geom_abline(linetype = "dashed", color = "black") +
+   scale_color_manual(values = c(.pred = "blue",  score = "red")) +
+   theme_minimal()+
+   labs(
+     title = "Predicted vs Actual",
+     x = "Predicted",
+     y = "Actual"
+   )
+```
+####The data is not very linear but the RMSE tells me that it is not terrible. The r-squared is low so this model is not capturing the pattern well. I will now try a random forest model to better capture the pattern.
+# Random forest with tuning
+```{r}
+set.seed(123)
+
+tune_colon <- rand_forest(
+  mtry = tune(),
+  trees = 300,
+  min_n = tune()
+)%>%
+  set_mode("regression") %>%
+  set_engine("ranger")
+
+workflow2 <- workflow()%>%
+  add_model(tune_colon) %>%
+  add_recipe(recipe)
+
+colon_grid<- grid_regular(
+  mtry(range =c(1,7)),
+  min_n(range = c(1,21)),
+  levels = c(7,7)
+)
+rf_tune <- tune_grid(
+  workflow2,
+  resamples = folds,
+  grid = colon_grid,
+  metrics = metric_set(rmse,rsq)
+)
+```
+```{r}
+collect_metrics(rf_tune)
+```
+#####The rmse is pretty similar and the rsq is slightly higher which means this model is capturing the data pattern a little better
+```{r}
+autoplot(rf_tune)
+```
+#####Now I am going support vector regression (SVR))
+```{r}
+set.seed(1234)
+
+# Recipe
+recipe2 <- recipe(score ~ Region, data = train_data) %>%
+  step_dummy(all_nominal_predictors()) %>%
+  step_normalize(all_numeric_predictors())
+
+#  Cross-validation folds (use vfold_cv instead of loo_cv)
+set.seed(123)
+folds2 <- vfold_cv(train_data, v = 5, repeats = 1)
+
+#  Model spec with tuning
+svr_mod <- linear_reg(
+  penalty = tune(), 
+  mixture = tune()
+) %>%
+  set_engine("glmnet") %>%
+  set_mode("regression")
+
+#  Workflow
+workflow3 <- workflow() %>%
+  add_recipe(recipe2) %>%
+  add_model(svr_mod)
+
+#  Tuning grid 
+grid <- grid_regular(
+  penalty(range = c(-3, 0)),     
+  mixture(range = c(0, 1)),
+  levels = 5
+)
+
+#  Tune the model
+set.seed(123)
+tune_results <- tune_grid(
+  workflow3,
+  resamples = folds2,
+  grid = grid,
+  metrics = metric_set(rmse, rsq)
+)
+```
+
+```{r}
+collect_metrics(tune_results)
+```
+
+#Final model testing
+```{r}
+best_svr <-select_best(tune_results,metric = "rmse")
+
+final_wf <- finalize_workflow(
+  workflow3,
+  best_svr
+)
+final_fit <- last_fit(
+  final_wf,
+  split = data_split
+)
+collect_metrics(final_fit)
+
+preds <-collect_predictions(final_fit)
+#plot predicts vs actual
+ggplot(preds, aes(x= .pred, y = score))+
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0, color = "firebrick")+
+  labs(
+    title = "final model predictions",
+    x = "predicted",
+    y = " actual"
+  )
+theme_minimal()
+```
+
+#####I selected the SVR model to do the final selection step on because it performed the best in cross validation. Metrics from evaluating the model on the test set were rmse = 2.45 and r-squared of 0.29. This is slightly worse then then during cross validation. This may be due to overfitting but the model was also limited due to the small dataset. Small datasets are not ideal for machine learning models and can have high variance 
+
+#Discussion
+
