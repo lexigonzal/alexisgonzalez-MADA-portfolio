@@ -1,7 +1,9 @@
 ---
 title: "Moduel 11 Exercise"
 ---
+
 #Load in pacakges
+
 ```{r}
 library(tidyverse)
 library(here)
@@ -11,6 +13,7 @@ library(ranger)
 ```
 
 #Load in data
+
 ```{r}
 care_state <- read.csv("/Users/alexisgonzalez/Desktop/MADA/alexisgonzalez-MADA-portfolio/tidytuesday-exercise/data/care_state.csv")
 ```
@@ -18,21 +21,27 @@ care_state <- read.csv("/Users/alexisgonzalez/Desktop/MADA/alexisgonzalez-MADA-p
 #Since data is already cleaned I will do some EDA!
 
 ###I like to start witha summary table to see what my data set even is
+
 ```{r}
 summary(care_state)
 str(care_state)
 ```
+
 #Making some frequency tables
+
 ```{r}
 table(care_state$condition)
 prop.table(table(care_state$condition))
 ```
+
 #Distribution of measures
+
 ```{r}
 care_state %>%
 count(measure_name, sort = TRUE) %>%
   head(10)
 ```
+
 ######I already decided that I want to look at colonoscopy care so my questions are a majority of americans recieving their recommended follow-up screenings? Does the percentage vary across states, because I am curious if the south sees lower rates of colonoscopy follow up we can see if region in the united states influence getting a follow up screening, and since there are no other variables relating to colonoscopy we will see if emergency room wait time has an effect on colonoscopy care!
 
 #EDA on variables of interest
@@ -53,6 +62,7 @@ care_state <- care_state %>%
 ```
 
 #####We will be looking at OP_29 (colonoscopy) and OP_18b
+
 ```{r}
 #distribution of wait times
 er_wait <- care_state %>%
@@ -68,7 +78,9 @@ ggplot(er_wait, aes(x = score)) +
   )
 
 ```
+
 #####Now lets see what states experience the longest wait times (top 10)
+
 ```{r}
 ggplot(er_wait, aes( x = state , y = score)) +
   geom_bar(stat = "identity", fill = "lightblue") +
@@ -81,7 +93,9 @@ ggplot(er_wait, aes( x = state , y = score)) +
   )
 
 ```
+
 #####Filtering to just see the top 10
+
 ```{r}
 top_10_wait <- er_wait %>%
   slice_head(n=10)
@@ -95,7 +109,9 @@ ggplot(top_10_wait, aes( x = state , y = score)) +
     y = "Minutes in ER"
   )
 ```
+
 #####using new variable Region
+
 ```{r}
 ggplot(er_wait, aes(x= Region, y = score)) +
   geom_bar(stat = "identity", fill = "darkblue")+
@@ -106,7 +122,6 @@ ggplot(er_wait, aes(x= Region, y = score)) +
     y = "Minutes in ER"
   )
 ```
-
 
 ######Now lets look at the same things with colonoscopy care
 
@@ -125,7 +140,9 @@ ggplot(coloncare, aes( x = state , y = score)) +
   )
 
 ```
+
 #Now lets see the bottom 10
+
 ```{r}
 bottom_percent <- coloncare %>%
   arrange(score) %>%
@@ -143,6 +160,7 @@ ggplot(bottom_percent, aes( x = reorder(state, score) , y = score)) +
   ) +
   ylim(0, max(bottom_percent$score)* 1.1)
 ```
+
 ```{r}
 region_colon <- care_state %>%
 filter(measure_id == "OP_29", !is.na(score)) %>%
@@ -158,7 +176,8 @@ ggplot(region_colon, aes(x = reorder( Region, avg_score), y = avg_score)) +
     y = "Percent"
   )
 ```
-######Now we will run some logisitic regression analysis on percent of people that get colonoscopy care 
+
+######Now we will run some logisitic regression analysis on percent of people that get colonoscopy care
 
 ```{r}
 set.seed(1234)
@@ -190,7 +209,6 @@ cv_colon <- fit_resamples(
  cv_predict <- collect_predictions(cv_colon)
 ```
 
-
 ```{r}
 #Plot predictions vs observed
  ggplot(cv_predict, aes(x = .pred, y = score)) +
@@ -204,8 +222,9 @@ cv_colon <- fit_resamples(
      y = "Actual"
    )
 ```
-####The data is not very linear but the RMSE tells me that it is not terrible. The r-squared is low so this model is not capturing the pattern well. I will now try a random forest model to better capture the pattern.
-# Random forest with tuning
+
+####The data is not very linear but the RMSE tells me that it is not terrible. The r-squared is low so this model is not capturing the pattern well. I will now try a random forest model to better capture the pattern. \# Random forest with tuning
+
 ```{r}
 set.seed(123)
 
@@ -233,14 +252,19 @@ rf_tune <- tune_grid(
   metrics = metric_set(rmse,rsq)
 )
 ```
+
 ```{r}
 collect_metrics(rf_tune)
 ```
+
 #####The rmse is pretty similar and the rsq is slightly higher which means this model is capturing the data pattern a little better
+
 ```{r}
 autoplot(rf_tune)
 ```
+
 #####Now I am going support vector regression (SVR))
+
 ```{r}
 set.seed(1234)
 
@@ -288,6 +312,7 @@ collect_metrics(tune_results)
 ```
 
 #Final model testing
+
 ```{r}
 best_svr <-select_best(tune_results,metric = "rmse")
 
@@ -314,7 +339,8 @@ ggplot(preds, aes(x= .pred, y = score))+
 theme_minimal()
 ```
 
-#####I selected the SVR model to do the final selection step on because it performed the best in cross validation. Metrics from evaluating the model on the test set were rmse = 2.45 and r-squared of 0.29. This is slightly worse then then during cross validation. This may be due to overfitting but the model was also limited due to the small dataset. Small datasets are not ideal for machine learning models and can have high variance 
+#####I selected the SVR model to do the final selection step on because it performed the best in cross validation. Metrics from evaluating the model on the test set were rmse = 2.45 and r-squared of 0.29. This is slightly worse then then during cross validation. This may be due to overfitting but the model was also limited due to the small dataset. Small datasets are not ideal for machine learning models and can have high variance.
 
 #Discussion
 
+The south and northeast see the longest ER wait times but, the south and west have the lowest rate of patients receiving. New Mexico sees the lowest rate of follow up and Alaska sees the longest wait times. The long wait times in Alaska may be explained by poor medical infrastructure and lack of resources.

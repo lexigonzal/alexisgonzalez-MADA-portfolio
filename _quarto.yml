@@ -17,7 +17,7 @@ website:
           - text: "CDC Data Exercise"
             file: cdcdata-exercise/cdcdata-excercise.qmd
           - text: "Presentation Exercise"
-            file: presentation-exercise/presentation-exercise.qmd
+            file: presentation-exercise/presentation-exercise copy.qmd
           - text: "Complex Data Exercise"
             file: data-exercise/data-exercise.qmd
           - text: "Fitting Exercise"
